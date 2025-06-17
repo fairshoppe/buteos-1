@@ -7,9 +7,12 @@ export default function AgentPage() {
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Core AI Phone Agent</h1>
+            <h1>Buteos Flight | Growth Partnership</h1>
+            <p className="tagline">
+              Intelligence that Elevates. Automate, Analyze, and Accelerate Your Business.
+            </p>
             <p>
-              Let an AI-powered phone agent handle your business calls! Our core AI phone agent can answer questions, take orders, schedule appointments, and provide information 24/7—no human needed. It's like having a virtual receptionist that never sleeps.
+              For established businesses ready to drive measurable growth in leads and sales. Buteos Flight integrates intelligent systems into your workflow to handle repetitive tasks, uncover critical insights from your data, and create smarter customer experiences. Let us equip your business with the AI-powered vision to anticipate challenges and seize opportunities faster than ever before.
             </p>
           </div>
         </div>
@@ -17,144 +20,166 @@ export default function AgentPage() {
       
       <section className="content-section">
         <div className="container">
-          <h2>What's Included?</h2>
-          <div className="feature-cards">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-phone-alt"></i>
-              </div>
-              <h3>Call Management</h3>
-              <p>Automated answering and intelligent routing</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-calendar-check"></i>
-              </div>
-              <h3>Scheduling</h3>
-              <p>Core appointment booking and management</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-shopping-basket"></i>
-              </div>
-              <h3>Order Taking</h3>
-              <p>Simple product ordering capabilities</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-info-circle"></i>
-              </div>
-              <h3>Company Info</h3>
-              <p>Answers to FAQs and business details</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-plug"></i>
-              </div>
-              <h3>Basic Integration</h3>
-              <p>Connect to one third-party service</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-headset"></i>
-              </div>
-              <h3>Setup Support</h3>
-              <p>Complete onboarding and configuration</p>
-            </div>
-          </div>
+          <h2>What's Included</h2>
           
-          <div className="section-divider"></div>
-          
-          <h2>Upgrade Your AI Agent</h2>
-          <p className="section-intro">Enhance your virtual assistant with these powerful capabilities</p>
-          
-          <div className="upgrade-options">
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-building"></i>
-                  <h3>Multi-Location</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Handle calls for multiple business locations with location-specific responses.</p>
-                </div>
-              </div>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-search"></i>
+              <h3>Advanced SEO & Content Creation</h3>
             </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-network-wired"></i>
-                  <h3>Expanded Integrations</h3>
-                </div>
+            <div className="tier-content">
+              <div className="tier-focus">
+                <h4>Focus:</h4>
+                <p>For established businesses ready to drive measurable growth in leads and sales.</p>
               </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Connect to CRMs, advanced scheduling, inventory systems, and more.</p>
-                </div>
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Elevate your online visibility and establish thought leadership with comprehensive SEO strategies and regular content creation.</p>
               </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-brain"></i>
-                  <h3>NLP Enhancement</h3>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-file-alt"></i>
+                  </div>
+                  <h4>Content Creation</h4>
+                  <p>2 high-quality blog posts per month optimized for search engines</p>
                 </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Smarter AI for better understanding and intent recognition.</p>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-chart-line"></i>
+                  </div>
+                  <h4>Keyword Strategy</h4>
+                  <p>Advanced keyword research and implementation</p>
                 </div>
-              </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-smile"></i>
-                  <h3>Sentiment Analysis</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Detect caller mood and respond accordingly for better experiences.</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-comments"></i>
-                  <h3>Omni-Channel</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Extend your AI agent to SMS, web chat, and other channels.</p>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-link"></i>
+                  </div>
+                  <h4>Link Building</h4>
+                  <p>Strategic backlink acquisition to boost domain authority</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="alert-container">
-            <div className="alert info">
-              <i className="fas fa-info-circle"></i>
-              <p>Upgrades require a conversation with our team and can be added at any time.</p>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-ad"></i>
+              <h3>Digital Advertising & Email Marketing</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Drive targeted traffic and nurture leads with strategic digital advertising and email marketing campaigns.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fab fa-google"></i>
+                  </div>
+                  <h4>Google Ads Management</h4>
+                  <p>Strategic campaign setup, optimization, and management</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fab fa-facebook"></i>
+                  </div>
+                  <h4>Meta Ads Management</h4>
+                  <p>Facebook and Instagram ad campaign management</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-envelope"></i>
+                  </div>
+                  <h4>Email Marketing</h4>
+                  <p>Campaign creation, automation, and performance tracking</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-robot"></i>
+              <h3>Automation & Reputation Management</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Streamline your marketing efforts and protect your brand reputation with intelligent automation and proactive management.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-cogs"></i>
+                  </div>
+                  <h4>Marketing Automation</h4>
+                  <p>Foundational workflows to nurture leads and engage customers</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-star"></i>
+                  </div>
+                  <h4>Reputation Management</h4>
+                  <p>Proactive monitoring and response to online reviews</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-file-contract"></i>
+                  </div>
+                  <h4>Monthly Reporting</h4>
+                  <p>Comprehensive reports with actionable insights</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-plus-circle"></i>
+              <h3>All Digital Foundation Services</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Includes all services from our Digital Foundation package, providing a comprehensive digital marketing solution.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-server"></i>
+                  </div>
+                  <h4>Website Essentials</h4>
+                  <p>Hosting, security, maintenance, and foundational SEO</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-map-marker-alt"></i>
+                  </div>
+                  <h4>Local Presence</h4>
+                  <p>Google Business Profile management</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-hashtag"></i>
+                  </div>
+                  <h4>Social Media</h4>
+                  <p>Management of 2 platforms with regular content</p>
+                </div>
+              </div>
             </div>
           </div>
           
           <div className="cta-container">
-            <Link href="/payment?package=basic-ai-agent" className="cta-button">Get Started</Link>
-            <Link href="/contact" className="cta-button secondary">Contact Us</Link>
+            <Link href="/contact" className="cta-button">Contact Us</Link>
           </div>
         </div>
       </section>

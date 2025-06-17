@@ -15,6 +15,8 @@
   --card-hover: #22c2e5;
   --card-text: #ffffff;
   --card-shadow: rgba(34, 194, 229, 0.3);
+  --card: 222 222 222; /* This is a light gray color */
+  --card-foreground: 0 0 0; /* Black text */
 }
 
 /* Navbar styles */
@@ -136,6 +138,8 @@
     --card-hover: #22c2e5;
     --card-text: #ffffff;
     --card-shadow: rgba(34, 194, 229, 0.3);
+    --card: 34 34 34; /* This is a dark gray color */
+    --card-foreground: 255 255 255; /* White text */
   }
 }
 
@@ -352,12 +356,32 @@ a {
 .hero-content p {
   font-size: 1.5rem;
   color: var(--text-light);
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
   animation: fadeIn 1.5s ease-out;
+}
+
+.hero-paragraphs p {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.hero-paragraphs p:last-child {
+  margin-bottom: 2.5rem;
+}
+
+.hero-paragraphs {
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary);
 }
 
 @keyframes fadeIn {
@@ -784,6 +808,13 @@ footer {
 
 .benefits-list li i {
   color: var(--primary);
+  width: 24px;
+  margin-right: 10px;
+}
+
+.benefits-list li strong {
+  color: var(--text);
+  margin-right: 8px;
 }
 
 .cta-buttons {

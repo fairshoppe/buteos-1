@@ -7,9 +7,12 @@ export default function WebPage() {
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Core Small Business Website</h1>
+            <h1>Buteos Nest | Digital Foundation</h1>
+            <p className="tagline">
+              Your Foundation for Digital Excellence. Scalable, Secure, and Built to Engage.
+            </p>
             <p>
-              Get your business online with a professional, easy-to-manage website. Our basic website package is perfect for small businesses who want to look credible, attract new customers, and make updates without hassle. No tech skills required—just your vision and our expertise!
+              For businesses needing to establish a professional online footprint. We create stunning, intuitive, and secure platforms that serve as the core of your digital ecosystem. Whether you're launching a new idea or scaling an existing one, we build the robust, user-centric nest your business needs to thrive.
             </p>
           </div>
         </div>
@@ -17,158 +20,112 @@ export default function WebPage() {
       
       <section className="content-section">
         <div className="container">
-          <h2>What's Included?</h2>
-          <div className="feature-cards">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-paint-brush"></i>
-              </div>
-              <h3>Custom Design</h3>
-              <p>Tailored to your brand identity and business goals</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-file-alt"></i>
-              </div>
-              <h3>5 Core Pages</h3>
-              <p>Home, About, Services, Contact, and one more of your choice</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-mobile-alt"></i>
-              </div>
-              <h3>Mobile-Friendly</h3>
-              <p>Responsive design that works on all devices</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-search"></i>
-              </div>
-              <h3>Basic SEO</h3>
-              <p>Essential optimization to help customers find you</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-envelope"></i>
-              </div>
-              <h3>Contact Form</h3>
-              <p>Easy way for customers to reach you</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-edit"></i>
-              </div>
-              <h3>Easy Updates</h3>
-              <p>Simple content management for your team</p>
-            </div>
-          </div>
+          <h2>What's Included</h2>
           
-          <div className="section-divider"></div>
-          
-          <h2>Upgrade Your Website</h2>
-          <p className="section-intro">Take your online presence to the next level with these powerful enhancements</p>
-          
-          <div className="upgrade-options">
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-shopping-cart"></i>
-                  <h3>Starter E-commerce</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Add a simple online store for up to 50 products, with payment gateway integration.</p>
-                </div>
-              </div>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-server"></i>
+              <h3>Website Essentials</h3>
             </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-store"></i>
-                  <h3>Advanced E-commerce</h3>
-                </div>
+            <div className="tier-content">
+              <div className="tier-focus">
+                <h4>Focus:</h4>
+                <p>For businesses needing to establish a professional online footprint.</p>
               </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Larger catalog, customer accounts, shipping, and discounts.</p>
-                </div>
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Launch your digital presence with a beautifully designed, responsive website. We handle all the technical aspects so you can focus on your business.</p>
               </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-plug"></i>
-                  <h3>API Integrations</h3>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-shield-alt"></i>
+                  </div>
+                  <h4>Website Hosting & Security</h4>
+                  <p>Reliable hosting with robust security measures and regular maintenance</p>
                 </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Connect your website to other tools or services (e.g., booking, CRM).</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-database"></i>
-                  <h3>Custom Backend</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Add a content management system or database for dynamic content.</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-users"></i>
-                  <h3>User Accounts</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Let customers register and log in for personalized experiences.</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="card">
-              <div className="face face1">
-                <div className="content">
-                  <i className="fas fa-th-large"></i>
-                  <h3>CMS Integration</h3>
-                </div>
-              </div>
-              <div className="face face2">
-                <div className="content">
-                  <p>Use WordPress, Strapi, or another CMS for easy content management.</p>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-search"></i>
+                  </div>
+                  <h4>Foundational SEO</h4>
+                  <p>On-page and local SEO optimization to help customers find you</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="alert-container">
-            <div className="alert info">
-              <i className="fas fa-info-circle"></i>
-              <p>Upgrades require a conversation with our team and can be added at any time.</p>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-map-marker-alt"></i>
+              <h3>Local Presence Management</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Establish and maintain your business's local online presence to attract nearby customers and build credibility in your community.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fab fa-google"></i>
+                  </div>
+                  <h4>Google Business Profile</h4>
+                  <p>Complete setup and ongoing management of your Google Business listing</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-star"></i>
+                  </div>
+                  <h4>Reputation Monitoring</h4>
+                  <p>Basic monitoring of online reviews and reputation management</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-hashtag"></i>
+              <h3>Social Media Management</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Maintain an active and engaging presence on social media platforms to connect with your audience and build your brand.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-share-alt"></i>
+                  </div>
+                  <h4>2 Platform Management</h4>
+                  <p>Content creation and management for two social media platforms</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-calendar-alt"></i>
+                  </div>
+                  <h4>Regular Content</h4>
+                  <p>Approximately 12 posts per month across your platforms</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-chart-line"></i>
+                  </div>
+                  <h4>Performance Reporting</h4>
+                  <p>Monthly reports on social media performance and engagement</p>
+                </div>
+              </div>
             </div>
           </div>
           
           <div className="cta-container">
-            <Link href="/payment?package=basic-web" className="cta-button">Get Started</Link>
-            <Link href="/contact" className="cta-button secondary">Contact Us</Link>
+            <Link href="/contact" className="cta-button">Contact Us</Link>
           </div>
         </div>
       </section>

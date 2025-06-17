@@ -1,0 +1,163 @@
+'use server';
+/**
+ * @fileOverview Calendar service for appointment booking using Google Calendar API.
+ */
+
+import { google } from 'googleapis';
+import type { calendar_v3 } from 'googleapis';
+import { getSecret } from '@/utils/secrets';
+
+const APPOINTMENT_DURATION_HOURS = 1;
+
+// --- Google Calendar API Setup ---
+let calendar: calendar_v3.Calendar | null = null;
+
+async function getGoogleCalendarClient(): Promise<calendar_v3.Calendar | null> {
+  if (calendar) {
+    return calendar;
+  }
+
+  try {
+    // Get secrets from Google Secret Manager
+    const serviceAccountKey = await getSecret('GOOGLE_SERVICE_ACCOUNT_KEY_JSON');
+    const calendarId = await getSecret('GOOGLE_CALENDAR_ID');
+
+    if (!serviceAccountKey || !calendarId) {
+      console.error('Required Google Calendar secrets are not set.');
+      return null;
+    }
+
+    try {
+      const credentials = JSON.parse(serviceAccountKey);
+      const auth = new google.auth.GoogleAuth({
+        credentials,
+        scopes: ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events'],
+      });
+
+      const authClient = await auth.getClient();
+      calendar = google.calendar({ version: 'v3', auth: authClient as any });
+      console.log('Google Calendar client initialized successfully.');
+      return calendar;
+    } catch (error) {
+      console.error('Error parsing service account key or initializing calendar client:', error);
+      return null;
+    }
+  } catch (error) {
+    console.error('Failed to access Google Calendar secrets:', error);
+    return null;
+  }
+}
+
+export async function checkAvailability(dateTime: Date): Promise<{ isAvailable: boolean; reason?: string }> {
+  const gCalendar = await getGoogleCalendarClient();
+  const calendarId = await getSecret('GOOGLE_CALENDAR_ID');
+  
+  if (!gCalendar || !calendarId) {
+    return { isAvailable: false, reason: "Calendar service is not configured." };
+  }
+
+  console.log(`Checking Google Calendar availability for: ${dateTime.toISOString()}`);
+
+  const requestedStartTime = new Date(dateTime);
+  const requestedEndTime = new Date(requestedStartTime.getTime() + APPOINTMENT_DURATION_HOURS * 60 * 60 * 1000);
+
+  if (requestedStartTime < new Date()) {
+    return { isAvailable: false, reason: "Cannot book appointments in the past." };
+  }
+
+  const day = requestedStartTime.getDay();
+  const hour = requestedStartTime.getHours();
+  if (day === 0 || day === 6) { // Sunday or Saturday
+    return { isAvailable: false, reason: "Appointments can only be booked on weekdays." };
+  }
+  if (hour < 9 || (hour + APPOINTMENT_DURATION_HOURS > 17)) { // Before 9 AM or appointment ends after 5 PM
+     return { isAvailable: false, reason: "Appointments can only be booked between 9 AM and 5 PM." };
+  }
+
+  try {
+    const response = await gCalendar.events.list({
+      calendarId: calendarId,
+      timeMin: requestedStartTime.toISOString(),
+      timeMax: requestedEndTime.toISOString(),
+      maxResults: 1,
+      singleEvents: true,
+      orderBy: 'startTime',
+    });
+
+    if (response.data.items && response.data.items.length > 0) {
+      console.log(`Conflict found. Slot from ${requestedStartTime.toISOString()} to ${requestedEndTime.toISOString()} is booked.`);
+      return { isAvailable: false, reason: 'The time slot is already booked.' };
+    }
+
+    console.log(`Time slot ${requestedStartTime.toISOString()} to ${requestedEndTime.toISOString()} is available.`);
+    return { isAvailable: true };
+  } catch (error: any) {
+    console.error('Error checking Google Calendar availability:', error);
+    return { isAvailable: false, reason: `Error checking calendar: ${error.message}` };
+  }
+}
+
+export async function bookAppointment(
+  dateTime: Date,
+  serviceDetails: string,
+  userName?: string
+): Promise<{ success: boolean; bookingId?: string; confirmationMessage: string; error?: string }> {
+  const gCalendar = await getGoogleCalendarClient();
+  const calendarId = await getSecret('GOOGLE_CALENDAR_ID');
+  
+  if (!gCalendar || !calendarId) {
+    return { success: false, confirmationMessage: "Booking failed: Calendar service is not configured.", error: "Calendar service not configured."};
+  }
+
+  console.log(`Attempting to book Google Calendar appointment for: ${dateTime.toISOString()}, Service: ${serviceDetails}`);
+
+  const availability = await checkAvailability(dateTime);
+  if (!availability.isAvailable) {
+    return { success: false, confirmationMessage: `Failed to book: ${availability.reason || 'Slot not available.'}`, error: availability.reason };
+  }
+
+  const startTime = new Date(dateTime);
+  const endTime = new Date(startTime.getTime() + APPOINTMENT_DURATION_HOURS * 60 * 60 * 1000);
+  
+  const eventTitle = userName ? `${serviceDetails} for ${userName}` : serviceDetails;
+  const eventDescription = `Appointment booked via ButeoBot AI.
+Service: ${serviceDetails}
+${userName ? `Client: ${userName}` : ''}`;
+
+  const event: calendar_v3.Schema$Event = {
+    summary: eventTitle,
+    description: eventDescription,
+    start: {
+      dateTime: startTime.toISOString(),
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    end: {
+      dateTime: endTime.toISOString(),
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    reminders: {
+      useDefault: false,
+      overrides: [
+        { method: 'email', minutes: 24 * 60 },
+        { method: 'popup', minutes: 30 },
+      ],
+    },
+  };
+
+  try {
+    const response = await gCalendar.events.insert({
+      calendarId: calendarId,
+      requestBody: event,
+    });
+
+    const bookingId = response.data.id || `gcal-${Date.now()}`;
+    const confirmationMessage = `Appointment for "${eventTitle}" on ${startTime.toLocaleString()} successfully booked. Event ID: ${bookingId}.`;
+    console.log(confirmationMessage);
+    return { success: true, bookingId, confirmationMessage };
+
+  } catch (error: any) {
+    console.error('Error booking Google Calendar appointment:', error);
+    const errorMessage = error.response?.data?.error?.message || error.message || 'Failed to create event.';
+    return { success: false, confirmationMessage: `An unexpected error occurred while booking: ${errorMessage}`, error: errorMessage };
+  }
+}

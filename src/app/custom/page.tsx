@@ -7,9 +7,15 @@ export default function CustomPage() {
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Template vs. Custom Design: What's Right for Your Business?</h1>
+            <h1>Buteos Talon | Full Digital Transformation</h1>
+            <p className="tagline">
+              Your Vision, Forged into Reality. Uncompromising Solutions for Unique Challenges.
+            </p>
             <p>
-              Choosing between a template and a custom design is a big decision for any business. Here's how each option impacts your brand, growth, and long-term success.
+              For businesses seeking a significant competitive advantage through technology and data. When off-the-shelf products fall short, we become your dedicated development partner, diving deep into your operations to build systems perfectly tailored to your strategic goals.
+            </p>
+            <p>
+              From custom AI implementations to advanced analytics dashboards, our process is collaborative, agile, and transparent. We combine your industry expertise with our technical mastery to forge powerful, one-of-a-kind tools that become your ultimate competitive advantage.
             </p>
           </div>
         </div>
@@ -17,178 +23,166 @@ export default function CustomPage() {
       
       <section className="content-section">
         <div className="container">
-          <h2>Key Differences</h2>
-          <p className="section-intro">Understanding these fundamental differences will help you make the right choice for your business needs</p>
+          <h2>What's Included</h2>
           
-          <div className="comparison-grid">
-            <div className="comparison-card">
-              <div className="comparison-header">
-                <i className="fas fa-fingerprint"></i>
-                <h3>Uniqueness & Brand Identity</h3>
-              </div>
-              <div className="comparison-content">
-                <div className="option">
-                  <h4>Template</h4>
-                  <p>Shared look and feel with many others. Limited ability to stand out.</p>
-                </div>
-                <div className="option highlight">
-                  <h4>Custom</h4>
-                  <p>Built from scratch for your brand—unique, memorable, and authoritative.</p>
-                </div>
-              </div>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-brain"></i>
+              <h3>Custom AI Solutions</h3>
             </div>
-            
-            <div className="comparison-card">
-              <div className="comparison-header">
-                <i className="fas fa-expand-arrows-alt"></i>
-                <h3>Flexibility & Scalability</h3>
+            <div className="tier-content">
+              <div className="tier-focus">
+                <h4>Focus:</h4>
+                <p>For businesses seeking a significant competitive advantage through technology and data.</p>
               </div>
-              <div className="comparison-content">
-                <div className="option">
-                  <h4>Template</h4>
-                  <p>Limited by predefined structure. Can become restrictive as you grow.</p>
-                </div>
-                <div className="option highlight">
-                  <h4>Custom</h4>
-                  <p>Fully flexible and scalable. Adapts to your needs and market changes.</p>
-                </div>
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Leverage the power of artificial intelligence to solve complex business challenges and create unique competitive advantages.</p>
               </div>
-            </div>
-            
-            <div className="comparison-card">
-              <div className="comparison-header">
-                <i className="fas fa-clock"></i>
-                <h3>Development Time</h3>
-              </div>
-              <div className="comparison-content">
-                <div className="option highlight">
-                  <h4>Template</h4>
-                  <p>Fast to launch—days or weeks.</p>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-robot"></i>
+                  </div>
+                  <h4>Custom AI Implementation</h4>
+                  <p>1-2 tailored AI solutions designed for your specific business needs</p>
                 </div>
-                <div className="option">
-                  <h4>Custom</h4>
-                  <p>More involved—weeks to months for a truly tailored solution.</p>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-cogs"></i>
+                  </div>
+                  <h4>Process Automation</h4>
+                  <p>Intelligent automation of complex business processes</p>
                 </div>
-              </div>
-            </div>
-            
-            <div className="comparison-card">
-              <div className="comparison-header">
-                <i className="fas fa-dollar-sign"></i>
-                <h3>Cost</h3>
-              </div>
-              <div className="comparison-content">
-                <div className="option highlight">
-                  <h4>Template</h4>
-                  <p>Lower upfront cost, but may limit long-term growth.</p>
-                </div>
-                <div className="option">
-                  <h4>Custom</h4>
-                  <p>Higher initial investment, but better ROI through performance, branding, and scalability.</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="comparison-card">
-              <div className="comparison-header">
-                <i className="fas fa-search"></i>
-                <h3>SEO Optimization</h3>
-              </div>
-              <div className="comparison-content">
-                <div className="option">
-                  <h4>Template</h4>
-                  <p>May have bloated code and generic SEO. Harder to optimize for your needs.</p>
-                </div>
-                <div className="option highlight">
-                  <h4>Custom</h4>
-                  <p>Clean, optimized code and structure for the best search rankings and organic traffic.</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="comparison-card">
-              <div className="comparison-header">
-                <i className="fas fa-users"></i>
-                <h3>User Experience (UX)</h3>
-              </div>
-              <div className="comparison-content">
-                <div className="option">
-                  <h4>Template</h4>
-                  <p>General best practices, but not tailored to your audience.</p>
-                </div>
-                <div className="option highlight">
-                  <h4>Custom</h4>
-                  <p>Designed for your users and goals—better engagement and conversions.</p>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-lightbulb"></i>
+                  </div>
+                  <h4>Innovation Strategy</h4>
+                  <p>Strategic planning for technology implementation and adoption</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="section-divider"></div>
-          
-          <h2>Why Choose Buteos for Custom Software?</h2>
-          <p className="section-intro">We specialize in creating tailored solutions for ambitious businesses with unique needs</p>
-          
-          <div className="feature-cards">
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-shield-alt"></i>
-              </div>
-              <h3>Enterprise-Grade</h3>
-              <p>Solutions built for scalability and security</p>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-chart-bar"></i>
+              <h3>Advanced Analytics & Business Intelligence</h3>
             </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-plug"></i>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Transform your data into actionable insights with sophisticated analytics tools and custom dashboards.</p>
               </div>
-              <h3>Custom Integrations</h3>
-              <p>Connect with your existing tools and systems</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-robot"></i>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-tachometer-alt"></i>
+                  </div>
+                  <h4>Custom BI Dashboard</h4>
+                  <p>Tailored business intelligence dashboard for real-time insights</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-database"></i>
+                  </div>
+                  <h4>Data Integration</h4>
+                  <p>Unified view of data from multiple sources and systems</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-chart-pie"></i>
+                  </div>
+                  <h4>Predictive Analytics</h4>
+                  <p>Advanced forecasting and trend analysis for informed decisions</p>
+                </div>
               </div>
-              <h3>Automation</h3>
-              <p>Streamline workflows and business processes</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-lightbulb"></i>
-              </div>
-              <h3>Innovative Solutions</h3>
-              <p>Support for unique business models and ideas</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-handshake"></i>
-              </div>
-              <h3>Collaborative Process</h3>
-              <p>Transparent development from idea to launch</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">
-                <i className="fas fa-rocket"></i>
-              </div>
-              <h3>Future-Proof</h3>
-              <p>Built to evolve with your growing business</p>
             </div>
           </div>
           
-          <div className="alert-container">
-            <div className="alert info">
-              <i className="fas fa-info-circle"></i>
-              <p>Ready to discuss your custom project? We'd love to hear your ideas and help you bring them to life.</p>
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-handshake"></i>
+              <h3>Strategic Partnership & Support</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Benefit from a true strategic partnership with dedicated support and regular business reviews.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-calendar-check"></i>
+                  </div>
+                  <h4>Quarterly Business Reviews</h4>
+                  <p>Strategic planning sessions to align technology with business goals</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-phone-alt"></i>
+                  </div>
+                  <h4>Direct Access</h4>
+                  <p>Priority communication channels to our technical team</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-life-ring"></i>
+                  </div>
+                  <h4>Priority Support</h4>
+                  <p>Expedited response times and dedicated support resources</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="service-tier">
+            <div className="tier-header">
+              <i className="fas fa-plus-circle"></i>
+              <h3>All Growth Partnership Services</h3>
+            </div>
+            <div className="tier-content">
+              <div className="tier-description">
+                <h4>Description:</h4>
+                <p>Includes all services from our Growth Partnership package, providing a comprehensive digital marketing and automation solution.</p>
+              </div>
+              <div className="tier-features">
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-search"></i>
+                  </div>
+                  <h4>Advanced SEO & Content</h4>
+                  <p>Comprehensive SEO strategy with regular content creation</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-ad"></i>
+                  </div>
+                  <h4>Digital Advertising</h4>
+                  <p>Google & Meta ad management with email marketing</p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="feature-icon">
+                    <i className="fas fa-cog"></i>
+                  </div>
+                  <h4>Marketing Automation</h4>
+                  <p>Foundational automation and reputation management</p>
+                </div>
+              </div>
             </div>
           </div>
           
           <div className="cta-container">
             <Link href="/contact" className="cta-button">Contact Us About Custom Solutions</Link>
-            <Link href="/pricing" className="cta-button secondary">View Pricing</Link>
           </div>
         </div>
       </section>

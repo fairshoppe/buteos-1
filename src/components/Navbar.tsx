@@ -46,11 +46,8 @@ export default function Navbar(): React.ReactElement {
           <ul>
             <li><Link href="/">Home</Link></li>
             <li><Link href="/blog">Blog</Link></li>
-            <li><Link href="/web">Web</Link></li>
-            <li><Link href="/mobile">Mobile</Link></li>
-            <li><Link href="/custom">Custom</Link></li>
-            <li><Link href="/pricing">Pricing</Link></li>
             <li><Link href="/contact">Contact</Link></li>
+            <li><Link href="/book">Book an Appointment!</Link></li>
           </ul>
         </div>
       </div>

@@ -3,7 +3,18 @@ import nodemailer from 'nodemailer';
 import { getSecret } from '@/utils/secrets';
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, company, email, phone, projectType, message } = body;
+  const { 
+    name, 
+    company, 
+    email, 
+    phone, 
+    website, 
+    socialMedia, 
+    projectType, 
+    preferredContactDate, 
+    preferredContactTime, 
+    message 
+  } = body;
 
   if (!name || !email || !message) {
     return new Response(JSON.stringify({ message: 'Missing required fields' }), { status: 400 });
@@ -27,12 +38,25 @@ export async function POST(req: NextRequest) {
       to: user,
       subject: `New Contact Form Submission (${projectType})`,
       replyTo: email,
-      text: `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\nProject Type: ${projectType}\nMessage: ${message}`,
+      text: `Name: ${name}
+Company: ${company}
+Email: ${email}
+Phone: ${phone}
+Website: ${website || 'Not provided'}
+Social Media: ${socialMedia || 'Not provided'}
+Service Level: ${projectType}
+Preferred Contact Date: ${preferredContactDate || 'Not specified'}
+Preferred Contact Time: ${preferredContactTime || 'Not specified'}
+Message: ${message}`,
       html: `<p><b>Name:</b> ${name}</p>
              <p><b>Company:</b> ${company}</p>
              <p><b>Email:</b> ${email}</p>
              <p><b>Phone:</b> ${phone}</p>
-             <p><b>Project Type:</b> ${projectType}</p>
+             <p><b>Website:</b> ${website || 'Not provided'}</p>
+             <p><b>Social Media:</b> ${socialMedia || 'Not provided'}</p>
+             <p><b>Service Level:</b> ${projectType}</p>
+             <p><b>Preferred Contact Date:</b> ${preferredContactDate || 'Not specified'}</p>
+             <p><b>Preferred Contact Time:</b> ${preferredContactTime || 'Not specified'}</p>
              <p><b>Message:</b><br/>${message}</p>`
     });
 
@@ -40,4 +64,4 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     return new Response(JSON.stringify({ message: 'There was an error sending your message. Please try again.' }), { status: 500 });
   }
-} 
+}

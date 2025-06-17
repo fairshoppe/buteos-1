@@ -8,7 +8,11 @@ export default function Contact() {
     company: '',
     email: '',
     phone: '',
-    projectType: 'basic-web',
+    website: '',
+    socialMedia: '',
+    projectType: 'digital-foundation',
+    preferredContactDate: '',
+    preferredContactTime: '',
     message: ''
   })
   const [status, setStatus] = useState({ type: '', message: '' })
@@ -31,7 +35,11 @@ export default function Contact() {
           company: '',
           email: '',
           phone: '',
-          projectType: 'basic-web',
+          website: '',
+          socialMedia: '',
+          projectType: 'digital-foundation',
+          preferredContactDate: '',
+          preferredContactTime: '',
           message: ''
         })
       } else {
@@ -54,7 +62,7 @@ export default function Contact() {
       <section className="hero-section">
         <div className="container">
           <h2>Let's Build Your Vision</h2>
-          <p>Whether you're interested in a basic package, have a custom app idea, or just want to explore how Buteos Systems can help your business grow, we're here to talk.</p>
+          <p>Whether you're interested in a digital foundation, growth partnership, or full digital transformation, we're here to help your business thrive in the digital landscape.</p>
         </div>
       </section>
 
@@ -128,9 +136,39 @@ export default function Contact() {
             </div>
 
             <div className="form-group">
+              <label htmlFor="website">
+                <i className="fas fa-globe"></i>
+                Current Website
+              </label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                placeholder="example.com"
+                value={formData.website}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="socialMedia">
+                <i className="fas fa-hashtag"></i>
+                Social Media Links
+              </label>
+              <input
+                type="text"
+                id="socialMedia"
+                name="socialMedia"
+                placeholder="Instagram, Facebook, LinkedIn, etc."
+                value={formData.socialMedia}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
               <label htmlFor="projectType">
                 <i className="fas fa-project-diagram"></i>
-                Project Type
+                Service Level
               </label>
               <select
                 id="projectType"
@@ -138,12 +176,39 @@ export default function Contact() {
                 value={formData.projectType}
                 onChange={handleChange}
               >
-                <option value="basic-web">Basic Website</option>
-                <option value="basic-mobile">Basic Mobile App</option>
-                <option value="custom-web">Custom Web Development</option>
-                <option value="custom-mobile">Custom Mobile App</option>
-                <option value="other">Other</option>
+                <option value="digital-foundation">Digital Foundation</option>
+                <option value="growth-partnership">Growth Partnership</option>
+                <option value="digital-transformation">Full Digital Transformation</option>
+                <option value="not-sure">Not Sure Yet</option>
               </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="preferredContactDate">
+                <i className="fas fa-calendar"></i>
+                Preferred Contact Date
+              </label>
+              <input
+                type="date"
+                id="preferredContactDate"
+                name="preferredContactDate"
+                value={formData.preferredContactDate}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="preferredContactTime">
+                <i className="fas fa-clock"></i>
+                Preferred Contact Time
+              </label>
+              <input
+                type="time"
+                id="preferredContactTime"
+                name="preferredContactTime"
+                value={formData.preferredContactTime}
+                onChange={handleChange}
+              />
             </div>
 
             <div className="form-group">
@@ -174,4 +239,4 @@ export default function Contact() {
       </section>
     </main>
   )
-} 
+}
