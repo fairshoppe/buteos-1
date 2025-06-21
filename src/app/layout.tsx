@@ -8,14 +8,14 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://buteossystems.com'),
   title: {
-    default: 'Buteos Systems - Web & Mobile Solutions',
+    default: 'Buteos Systems - Strategic Digital Marketing & AI Solutions',
     template: '%s | Buteos Systems'
   },
-  description: 'Full-stack software engineering delivering seamless web and mobile design, development, and deployment for businesses ready to thrive online.',
-  keywords: ['ai phone agent', 'ai agents', 'custom ai agents', 'web design', 'mobile app development', 'software engineering', 'business solutions', 'custom software', 'SEO optimization'],
+  description: 'Houston-based strategic digital marketing consultancy specializing in hospitality and retail businesses. From digital foundation to AI transformation, we help Texas businesses dominate their local market with comprehensive digital strategies.',
+  keywords: ['Houston digital marketing', 'Texas hospitality marketing', 'Houston retail marketing', 'local SEO Houston', 'social media management Texas', 'AI solutions Houston', 'digital transformation Texas', 'Google Business Profile Houston', 'marketing automation', 'Houston strategic consulting'],
   openGraph: {
-    title: 'Buteos Systems - Web & Mobile Solutions',
-    description: 'Full-stack software engineering delivering seamless web and mobile design, development, and deployment for businesses ready to thrive online. Brand focused, cutting-edge AI agents for any workflow.',
+    title: 'Buteos Systems - Strategic Digital Marketing & AI Solutions',
+    description: 'Strategic digital marketing consultancy for hospitality and retail businesses. Digital Foundation, Growth Partnership, and Full Digital Transformation services to help you command your market.',
     url: '/',
     siteName: 'Buteos Systems',
     images: [
@@ -31,8 +31,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Buteos Systems - Web & Mobile Solutions',
-    description: 'Full-stack software engineering delivering seamless web and mobile design, development, and deployment for businesses ready to thrive online.',
+    title: 'Buteos Systems - Strategic Digital Marketing & AI Solutions',
+    description: 'Strategic digital marketing consultancy for hospitality and retail businesses. From digital foundation to AI transformation.',
     images: ['https://storage.googleapis.com/buteos-res/bs_logo_nobg.png'],
   },
   robots: {
@@ -118,8 +118,8 @@ export default function RootLayout({
             </div>
             <ul className="footer-links">
               <li><a href="/">Home</a></li>
-              <li><a href="/pricing">Pricing</a></li>
-              <li><a href="/contact">Contact</a></li>
+              <li><a href="/book">Book an Appointment</a></li>
+              <li><a href="/contact">Contact Us</a></li>
               <li><a href="/about">About Us</a></li>
               <li><a href="/blog">Blog</a></li>
               <li><a href="/privacy">Privacy Policy</a></li>
@@ -140,17 +140,31 @@ export default function RootLayout({
               name: 'Buteos Systems',
               url: process.env.NEXT_PUBLIC_BASE_URL || 'https://buteossystems.com',
               logo: 'https://storage.googleapis.com/buteos-res/bs_logo_nobg.svg',
+              description: 'Strategic digital marketing consultancy specializing in hospitality and retail businesses',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Houston',
+                addressRegion: 'TX',
+                addressCountry: 'US'
+              },
               contactPoint: {
                 '@type': 'ContactPoint',
                 telephone: '',
                 contactType: 'customer service',
                 email: 'info@buteossystems.com',
-                areaServed: 'US'
+                areaServed: ['Houston', 'Texas', 'US']
               },
               sameAs: [
                 'https://twitter.com/buteossystems',
                 'https://www.linkedin.com/company/buteos-systems',
                 'https://www.facebook.com/buteossystems'
+              ],
+              serviceType: [
+                'Digital Marketing',
+                'Local SEO',
+                'Social Media Management',
+                'AI Solutions',
+                'Marketing Automation'
               ]
             })
           }}

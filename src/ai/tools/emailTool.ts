@@ -25,7 +25,7 @@ const SendConversationSummaryOutputSchema = z.object({
 });
 export type SendConversationSummaryOutput = z.infer<typeof SendConversationSummaryOutputSchema>;
 
-export const sendConversationSummaryTool = ai.defineTool(
+export const sendConversationSummaryTool = ai?.defineTool(
   {
     name: 'sendConversationSummaryTool',
     description: 'Sends a summary of the current conversation turn via email. Includes user input, bot response, and placeholder contact details.',
@@ -34,6 +34,21 @@ export const sendConversationSummaryTool = ai.defineTool(
   },
   async (input: SendConversationSummaryInput) => {
     console.log('sendConversationSummaryTool invoked with input:', input);
+    
+    // Validate email address - don't send to invalid domains
+    const emailToUse = input.userEmail && input.userEmail.includes('@') && !input.userEmail.includes('example.com') 
+      ? input.userEmail 
+      : undefined; // Let the email service handle default
+    
+    if (!emailToUse) {
+      console.log('No valid email provided, skipping email summary');
+      return { 
+        success: true, 
+        messageId: 'skipped', 
+        error: 'No valid email address provided for summary' 
+      };
+    }
+
     const subject = `Your ButeoBot Conversation Summary (${input.conversationTopic || 'General'})`;
     const body = `
 Hello ${input.userName || 'Valued User'},
@@ -60,7 +75,7 @@ The ButeoBot Team
 
     try {
       const result = await sendEmail({
-        to: input.userEmail, // sendEmail service handles default if undefined
+        to: emailToUse,
         subject,
         body,
       });

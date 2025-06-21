@@ -108,7 +108,7 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Website Hosting, Security & Maintenance with foundational on-page & local SEO.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/web" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Google Business Profile Management and basic reputation monitoring.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/web" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
@@ -136,10 +136,14 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Management of 2 social media platforms with approximately 12 posts per month.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/web" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
+          </div>
+          <div className="section-cta">
+            <Link href="/web" className="cta-button">Learn More</Link>
+            <Link href="/book" className="cta-button book-button">Book an Appointment</Link>
           </div>
         </div>
       </section>
@@ -160,7 +164,7 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Advanced SEO & Content Creation with 2 blogs per month to drive organic traffic.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/agent" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
@@ -174,7 +178,7 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Google & Meta Ad Management with email marketing campaign management.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/agent" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
@@ -188,10 +192,14 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Foundational marketing automation and proactive reputation management.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/agent" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
+          </div>
+          <div className="section-cta">
+            <Link href="/agent" className="cta-button">Learn More</Link>
+            <Link href="/book" className="cta-button book-button">Book an Appointment</Link>
           </div>
         </div>
       </section>
@@ -212,7 +220,7 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>1-2 Custom AI Solution Implementations to transform your business processes.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/custom" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
@@ -226,7 +234,7 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Advanced Analytics & Business Intelligence Dashboard for data-driven decisions.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/custom" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
@@ -240,12 +248,15 @@ export default async function Home() {
               <div className="face face2">
                 <div className="content">
                   <p>Quarterly Business Reviews (QBRs) with direct access & priority support.</p>
-                  <Link href="/contact" className="learn-more">Contact Us</Link>
+                  <Link href="/custom" className="learn-more">Learn More</Link>
                 </div>
               </div>
             </div>
           </div>
-          <Link href="/contact" className="cta-button">Contact Us for Custom Solutions</Link>
+          <div className="section-cta">
+            <Link href="/custom" className="cta-button">Learn More</Link>
+            <Link href="/book" className="cta-button book-button">Book an Appointment</Link>
+          </div>
         </div>
       </section>
 
@@ -268,6 +279,7 @@ export default async function Home() {
           <p>Join the businesses already thriving with our software solutions.</p>
           <div className="cta-buttons">
             <Link href="/contact" className="cta-button">Contact Us</Link>
+            <Link href="/book" className="cta-button book-button">Book an Appointment</Link>
           </div>
         </div>
       </section>

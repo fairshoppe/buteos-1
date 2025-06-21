@@ -1,18 +1,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+export const metadata = {
+  title: 'Digital Transformation - Houston AI Solutions & Custom Development',
+  description: 'Full digital transformation services for Houston hospitality and retail businesses. Custom AI solutions, advanced analytics, business intelligence dashboards, and strategic consulting for competitive advantage.',
+  keywords: ['Houston AI solutions', 'digital transformation Texas', 'custom AI Houston', 'business intelligence Houston', 'advanced analytics Texas', 'strategic consulting Houston'],
+};
+
 export default function CustomPage() {
   return (
     <main>
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Buteos Talon | Full Digital Transformation</h1>
+            <h1>Digital Transformation Services - Houston AI & Custom Solutions</h1>
             <p className="tagline">
               Your Vision, Forged into Reality. Uncompromising Solutions for Unique Challenges.
             </p>
             <p>
-              For businesses seeking a significant competitive advantage through technology and data. When off-the-shelf products fall short, we become your dedicated development partner, diving deep into your operations to build systems perfectly tailored to your strategic goals.
+              For Houston hospitality and retail businesses seeking a significant competitive advantage through technology and data. When off-the-shelf products fall short, we become your dedicated Texas development partner, diving deep into your operations to build systems perfectly tailored to your strategic goals and the unique demands of the Houston market.
             </p>
             <p>
               From custom AI implementations to advanced analytics dashboards, our process is collaborative, agile, and transparent. We combine your industry expertise with our technical mastery to forge powerful, one-of-a-kind tools that become your ultimate competitive advantage.
@@ -181,8 +187,22 @@ export default function CustomPage() {
             </div>
           </div>
           
+          <div className="local-seo-section">
+            <h2>Leading Houston's Digital Transformation Revolution</h2>
+            <p>As Houston's premier digital transformation consultancy, we're helping Texas hospitality and retail businesses leverage cutting-edge AI and custom solutions to dominate their markets. From downtown hotels implementing smart guest experiences to Memorial City retailers using predictive analytics, we're transforming how Houston businesses operate.</p>
+            <div className="transformation-examples">
+              <h3>Houston Success Stories:</h3>
+              <ul>
+                <li>AI-powered customer service for Houston restaurants</li>
+                <li>Predictive analytics for Texas retail inventory management</li>
+                <li>Custom booking systems for Houston hospitality</li>
+                <li>Advanced reporting dashboards for multi-location Texas businesses</li>
+              </ul>
+            </div>
+          </div>
+          
           <div className="cta-container">
-            <Link href="/contact" className="cta-button">Contact Us About Custom Solutions</Link>
+            <Link href="/contact" className="cta-button">Transform Your Houston Business Today</Link>
           </div>
         </div>
       </section>

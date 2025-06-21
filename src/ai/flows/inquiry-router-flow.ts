@@ -16,8 +16,9 @@ import type { ConverseInput, ConverseOutput } from './natural-language-conversat
 import { converse } from './natural-language-conversation';
 import type { AiAppointmentBookingInput, AiAppointmentBookingOutput } from './ai-appointment-booking';
 import { aiAppointmentBooking } from './ai-appointment-booking';
-import type { ChatMode } from '@/types';
-import { sendConversationSummaryTool } from '@/ai/tools/emailTool'; // Import the email tool
+import type { ChatMode, Message } from '@/types';
+// Note: Email summaries should be handled at the conversation level, not per message
+// import { sendConversationSummaryTool } from '@/ai/tools/emailTool';
 
 const ai = await getAI();
 
@@ -25,6 +26,13 @@ const RouteInquiryInputSchema = z.object({
   userInput: z.string().describe('The user input to be classified and routed.'),
   userEmail: z.string().optional().describe("The user's email address, if available and they've consented to receive summaries."),
   userName: z.string().optional().describe("The user's name, if known."),
+  conversationHistory: z.array(z.object({
+    id: z.string(),
+    text: z.string(),
+    sender: z.enum(['user', 'bot', 'system']), // Allow 'system' as sender
+    timestamp: z.string(),
+    mode: z.enum(['info', 'chat', 'booking', 'system'])
+  })).optional().describe('Previous messages in the conversation for context.'),
 });
 export type RouteInquiryInput = z.infer<typeof RouteInquiryInputSchema>;
 
@@ -44,32 +52,59 @@ export async function routeInquiry(input: RouteInquiryInput): Promise<RouteInqui
   return inquiryRouterFlow(input);
 }
 
-const classificationPrompt = ai.definePrompt({
+const classificationPrompt = ai?.definePrompt({
   name: 'inquiryClassificationPrompt',
-  input: { schema: z.object({ userInput: RouteInquiryInputSchema.shape.userInput }) }, // Only pass userInput for classification
+  input: { schema: z.object({ 
+    userInput: z.string().describe('The user input to be classified and routed.'),
+    conversationHistory: z.array(z.object({
+      id: z.string(),
+      text: z.string(),
+      sender: z.enum(['user', 'bot', 'system']),
+      timestamp: z.string(),
+      mode: z.enum(['info', 'chat', 'booking', 'system'])
+    })).optional().describe('Previous messages in the conversation for context.')
+  }) },
   output: { schema: InquiryClassificationSchema },
-  prompt: `You are an expert at classifying user intentions for a chatbot. Classify the following user input into one of four categories:
+  prompt: `You are an expert at classifying user intentions for a chatbot. Classify the following user input into one of four categories, taking into account the conversation history for context:
+
 - "info": If the user is asking for company information, its services, products, history, contact details, office hours etc.
 - "booking": If the user is trying to book, schedule, modify, or inquire about an appointment or availability. This includes asking "Are you free tomorrow?".
 - "chat": For all other general conversation, greetings, small talk, or inquiries not clearly covered by "info" or "booking".
 - "unknown": If the intent is very unclear or ambiguous.
 
-User Input: {{{userInput}}}
+Conversation History:
+{{#if conversationHistory}}
+{{#each conversationHistory}}
+{{sender}}: {{text}}
+{{/each}}
+{{else}}
+No previous conversation.
+{{/if}}
+
+Current User Input: {{{userInput}}}
+
+Consider the conversation context when classifying. For example, if the user previously asked about hours and now says "cst" or "us central time", this is likely a follow-up to their previous question about hours.
 
 Return ONLY the determinedMode.`,
 });
 
-const inquiryRouterFlow = ai.defineFlow(
+const inquiryRouterFlow = ai?.defineFlow(
   {
     name: 'inquiryRouterFlow',
     inputSchema: RouteInquiryInputSchema,
     outputSchema: RouteInquiryOutputSchema,
-    // Make the email tool available to this flow if we wanted the LLM to decide to use it.
-    // However, for "email at the end of every conversation", we'll call it programmatically.
+    // Note: Email summaries should be handled at the conversation level, not per message
     // tools: [sendConversationSummaryTool], 
   },
   async (flowInput: RouteInquiryInput) => {
-    const {output: classificationOutput} = await classificationPrompt({userInput: flowInput.userInput});
+    if (!classificationPrompt) {
+      throw new Error('AI classification prompt not initialized');
+    }
+
+    const {output: classificationOutput} = await classificationPrompt({
+      userInput: flowInput.userInput,
+      conversationHistory: flowInput.conversationHistory || []
+    });
     
     let determinedMode: ChatMode | 'unknown' = 'chat'; // Default to chat
     if (classificationOutput) {
@@ -85,13 +120,19 @@ const inquiryRouterFlow = ai.defineFlow(
 
     switch (determinedMode) {
       case 'info':
-        const infoInput: CompanyInfoChatInput = { query: flowInput.userInput };
+        const infoInput: CompanyInfoChatInput = { 
+          query: flowInput.userInput,
+          conversationHistory: flowInput.conversationHistory
+        };
         const infoOutput: CompanyInfoChatOutput = await companyInfoChat(infoInput);
         responseText = infoOutput.answer;
         finalDeterminedMode = 'info';
         break;
       case 'chat':
-        const converseInput: ConverseInput = { message: flowInput.userInput };
+        const converseInput: ConverseInput = { 
+          message: flowInput.userInput,
+          conversationHistory: flowInput.conversationHistory
+        };
         const converseOutput: ConverseOutput = await converse(converseInput);
         responseText = converseOutput.response;
         finalDeterminedMode = 'chat';
@@ -99,7 +140,8 @@ const inquiryRouterFlow = ai.defineFlow(
       case 'booking':
         const bookingInput: AiAppointmentBookingInput = { 
           userInput: flowInput.userInput,
-          currentDate: new Date().toISOString() // Pass current date for booking flow
+          currentDate: new Date().toISOString(), // Pass current date for booking flow
+          conversationHistory: flowInput.conversationHistory
         };
         const bookingOutput: AiAppointmentBookingOutput = await aiAppointmentBooking(bookingInput);
         responseText = bookingOutput.confirmation;
@@ -108,23 +150,9 @@ const inquiryRouterFlow = ai.defineFlow(
       // No default needed due to 'unknown' being handled and type casting
     }
 
-    // After getting the response, send an email summary (fire-and-forget)
-    // In a real app, you might want to only send email if userEmail is provided/consented
-    // For now, it will use a default if userEmail is not in flowInput
-    try {
-      console.log(`Preparing to send email summary for mode: ${finalDeterminedMode}`);
-      await sendConversationSummaryTool({
-        userInput: flowInput.userInput,
-        botResponse: responseText,
-        userEmail: flowInput.userEmail,
-        userName: flowInput.userName,
-        conversationTopic: finalDeterminedMode,
-      });
-      console.log('Email summary tool call initiated.');
-    } catch (emailError) {
-      console.error("Failed to send email summary:", emailError);
-      // Do not let email failure block the chat response
-    }
+    // Note: Email summaries should be handled at the conversation level, not per message
+    // This prevents premature email sending and allows for proper conversation tracking
+    // The chat interface should handle sending email summaries when a conversation ends
 
     return { responseText, determinedMode: finalDeterminedMode };
   }

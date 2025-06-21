@@ -38,9 +38,17 @@ export async function sendEmail(payload: EmailPayload): Promise<{ success: boole
     const transporter = await createTransporter();
     const user = await getSecret('IONOS_SMTP_USER');
 
+    // Validate email address
+    const isValidEmail = (email: string) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email) && !email.includes('example.com');
+    };
+
+    const recipientEmail = to && isValidEmail(to) ? to : user;
+
     const mailOptions = {
       from: fromName ? `"${fromName}" <${user}>` : user,
-      to: to || user, // Default to the SMTP user if no recipient specified
+      to: recipientEmail,
       replyTo: replyTo,
       subject: subject,
       html: body,
@@ -48,11 +56,11 @@ export async function sendEmail(payload: EmailPayload): Promise<{ success: boole
     };
 
     if (!mailOptions.to) {
-      console.error('Email not sent: No recipient address provided.');
-      return { success: false, error: 'No recipient address specified.' };
+      console.error('Email not sent: No valid recipient address provided.');
+      return { success: false, error: 'No valid recipient address specified.' };
     }
 
-    console.log(`Attempting to send email via IONOS SMTP`);
+    console.log(`Attempting to send email via IONOS SMTP to: ${mailOptions.to}`);
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent successfully. Message ID:', info.messageId);
     return { success: true, messageId: info.messageId };

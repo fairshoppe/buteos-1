@@ -262,7 +262,7 @@ a {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   transform: translateY(-100px);
   z-index: 1;
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px;
   transition: 0.5s ease-in-out;
 }
 
@@ -824,6 +824,13 @@ footer {
   margin-top: 2rem;
 }
 
+.section-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 .cta-button.secondary {
   background-color: transparent;
   border: 2px solid var(--primary);
@@ -833,6 +840,15 @@ footer {
 .cta-button.secondary:hover {
   background-color: var(--primary);
   color: white;
+}
+
+.cta-button.book-button {
+  background-color: var(--accent);
+  border: none;
+}
+
+.cta-button.book-button:hover {
+  background-color: var(--accent-blue);
 }
 
 @media (max-width: 768px) {
@@ -1246,4 +1262,45 @@ a:hover {
 
 .footer-copyright p {
   margin: 0;
+}
+
+.local-seo-section {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+  border-left: 4px solid var(--primary);
+}
+
+.local-seo-section h2 {
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.local-seo-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.local-seo-section li {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.local-seo-section li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.local-benefits, .transformation-examples {
+  margin-top: 1.5rem;
+}
+
+.local-benefits h3, .transformation-examples h3 {
+  color: var(--primary-light);
+  margin-bottom: 1rem;
 }

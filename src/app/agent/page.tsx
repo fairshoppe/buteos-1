@@ -1,18 +1,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+export const metadata = {
+  title: 'Growth Partnership - Houston Digital Marketing & SEO Services',
+  description: 'Advanced digital marketing services for established Houston hospitality and retail businesses. SEO, content marketing, Google Ads, Meta advertising, and marketing automation to drive measurable growth.',
+  keywords: ['Houston SEO services', 'digital marketing Houston', 'Google Ads Houston', 'Meta advertising Texas', 'content marketing Houston', 'marketing automation Texas'],
+};
+
 export default function AgentPage() {
   return (
     <main>
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Buteos Flight | Growth Partnership</h1>
+            <h1>Growth Partnership Services - Houston Digital Marketing</h1>
             <p className="tagline">
               Intelligence that Elevates. Automate, Analyze, and Accelerate Your Business.
             </p>
             <p>
-              For established businesses ready to drive measurable growth in leads and sales. Buteos Flight integrates intelligent systems into your workflow to handle repetitive tasks, uncover critical insights from your data, and create smarter customer experiences. Let us equip your business with the AI-powered vision to anticipate challenges and seize opportunities faster than ever before.
+              For established Houston hospitality and retail businesses ready to drive measurable growth in leads and sales. Our Growth Partnership integrates intelligent marketing systems into your workflow to handle repetitive tasks, uncover critical insights from your customer data, and create smarter customer experiences. Let us equip your Texas business with the AI-powered marketing vision to anticipate challenges and seize opportunities in the competitive Houston market.
             </p>
           </div>
         </div>
@@ -178,8 +184,22 @@ export default function AgentPage() {
             </div>
           </div>
           
+          <div className="local-seo-section">
+            <h2>Houston's Premier Growth Marketing Partnership</h2>
+            <p>Serving Houston's thriving hospitality and retail sectors, our Growth Partnership services are designed to help established Texas businesses scale their digital presence and drive measurable results. From River Oaks restaurants to Galleria retail stores, we understand the Houston market dynamics.</p>
+            <div className="local-benefits">
+              <h3>Houston Market Advantages:</h3>
+              <ul>
+                <li>Compete effectively against national chains in Houston</li>
+                <li>Target Houston-area customers with precision</li>
+                <li>Leverage Texas hospitality and retail trends</li>
+                <li>Build customer loyalty in the Houston community</li>
+              </ul>
+            </div>
+          </div>
+          
           <div className="cta-container">
-            <Link href="/contact" className="cta-button">Contact Us</Link>
+            <Link href="/contact" className="cta-button">Start Your Houston Growth Partnership</Link>
           </div>
         </div>
       </section>

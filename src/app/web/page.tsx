@@ -1,18 +1,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
+export const metadata = {
+  title: 'Digital Foundation Services - Houston Web Design & Local SEO',
+  description: 'Professional digital foundation services for Houston hospitality and retail businesses. Website hosting, local SEO, Google Business Profile management, and social media marketing to establish your online presence.',
+  keywords: ['Houston web design', 'local SEO Houston', 'Google Business Profile Houston', 'social media management Texas', 'hospitality website design', 'retail web development'],
+};
+
 export default function WebPage() {
   return (
     <main>
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Buteos Nest | Digital Foundation</h1>
+            <h1>Digital Foundation Services in Houston, Texas</h1>
             <p className="tagline">
               Your Foundation for Digital Excellence. Scalable, Secure, and Built to Engage.
             </p>
             <p>
-              For businesses needing to establish a professional online footprint. We create stunning, intuitive, and secure platforms that serve as the core of your digital ecosystem. Whether you're launching a new idea or scaling an existing one, we build the robust, user-centric nest your business needs to thrive.
+              For Houston hospitality and retail businesses needing to establish a professional online footprint. We create stunning, intuitive, and secure platforms that serve as the core of your digital ecosystem. Whether you're launching a new restaurant, hotel, or retail store, we build the robust, user-centric digital foundation your Texas business needs to thrive in the local market.
             </p>
           </div>
         </div>
@@ -124,8 +130,19 @@ export default function WebPage() {
             </div>
           </div>
           
+          <div className="local-seo-section">
+            <h2>Why Choose Local Houston Digital Marketing?</h2>
+            <p>As a Houston-based digital marketing consultancy, we understand the unique challenges facing Texas hospitality and retail businesses. From competing with national chains to attracting local customers, our Digital Foundation services are specifically designed to help Houston businesses establish a strong local online presence.</p>
+            <ul>
+              <li>Local Houston market expertise</li>
+              <li>Google Business Profile optimization for Texas businesses</li>
+              <li>Houston-focused SEO strategies</li>
+              <li>Social media management tailored to Texas audiences</li>
+            </ul>
+          </div>
+          
           <div className="cta-container">
-            <Link href="/contact" className="cta-button">Contact Us</Link>
+            <Link href="/contact" className="cta-button">Get Your Free Houston Digital Marketing Consultation</Link>
           </div>
         </div>
       </section>

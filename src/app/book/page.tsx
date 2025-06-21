@@ -92,9 +92,9 @@ export default function BookingPage() {
             onSelectSlot={handleSelectSlot}
             views={['month', 'week', 'day']}
             min={new Date(0, 0, 0, 9, 0, 0)} // 9 AM
-            max={new Date(0, 0, 0, 17, 0, 0)} // 5 PM
-            step={60} // 1 hour slots
-            timeslots={1}
+            max={new Date(0, 0, 0, 18, 30, 0)} // 6:30 PM
+            step={30} // 30 minute slots
+            timeslots={2}
           />
         </div>
 
@@ -106,7 +106,7 @@ export default function BookingPage() {
                 type="text"
                 value={selectedDate ? selectedDate.toLocaleString() : 'Select a time slot'}
                 readOnly
-                className="w-full p-2 border rounded"
+                className="w-1/2 p-2 border rounded"
               />
             </div>
 
@@ -116,7 +116,7 @@ export default function BookingPage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full p-2 border rounded"
+                className="w-1/2 p-2 border rounded"
                 required
               />
             </div>
@@ -127,7 +127,7 @@ export default function BookingPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-2 border rounded"
+                className="w-1/2 p-2 border rounded"
                 required
               />
             </div>
@@ -137,21 +137,20 @@ export default function BookingPage() {
               <select
                 value={service}
                 onChange={(e) => setService(e.target.value)}
-                className="w-full p-2 border rounded"
+                className="w-1/2 p-2 border rounded"
                 required
               >
                 <option value="">Select a service</option>
-                <option value="Initial Consultation">Initial Consultation</option>
-                <option value="Web Development">Web Development</option>
-                <option value="Mobile App Development">Mobile App Development</option>
-                <option value="Digital Marketing">Digital Marketing</option>
-                <option value="AI Solutions">AI Solutions</option>
+                <option value="Foundation">Buteos Nest</option>
+                <option value="Growth">Buteos Flight</option>
+                <option value="Transformation">Buteos Talon</option>
+                <option value="Open">I don't know</option>
               </select>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+              className="w-1/2 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
               disabled={!selectedDate}
             >
               Book Appointment

@@ -11,11 +11,19 @@
 import { getAI } from '@/ai/genkit';
 import {z} from 'genkit';
 import { getCompanyInfoTool } from '@/ai/tools/companyDataTool';
+import type { Message } from '@/types';
 
 const ai = await getAI();
 
 const CompanyInfoChatInputSchema = z.object({
   query: z.string().describe('The user query about the company.'),
+  conversationHistory: z.array(z.object({
+    id: z.string(),
+    text: z.string(),
+    sender: z.enum(['user', 'bot', 'system']), // Allow 'system' as sender
+    timestamp: z.string(),
+    mode: z.enum(['info', 'chat', 'booking', 'system'])
+  })).optional().describe('Previous messages in the conversation for context.'),
 });
 export type CompanyInfoChatInput = z.infer<typeof CompanyInfoChatInputSchema>;
 
@@ -28,36 +36,61 @@ export async function companyInfoChat(input: CompanyInfoChatInput): Promise<Comp
   return companyInfoChatFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const prompt = ai?.definePrompt({
   name: 'companyInfoChatPrompt',
   input: {schema: CompanyInfoChatInputSchema},
   output: {schema: CompanyInfoChatOutputSchema},
   tools: [getCompanyInfoTool],
-  prompt: `You are a helpful AI assistant for ButeoBot Inc. Your goal is to answer user questions about the company.
-User's query: "{{{query}}}"
+  prompt: `You are a helpful AI assistant for ButeoBot Inc. Answer user questions about the company naturally and concisely.
 
-1.  First, determine if the user's query can be answered by specific company data (like services, history, contact info, products, office hours).
-2.  If yes, use the 'getCompanyInfoTool' to retrieve the relevant information. Formulate your 'topic' for the tool carefully based on the user's query. For example, if the user asks "What services do you offer?", the topic could be "services". If they ask "What are your office hours?", the topic could be "officeHours".
-3.  Based on the tool's output (or if the tool is not applicable or doesn't find specific data), formulate a helpful and natural-sounding answer to the user.
-4.  If the tool returns an error or no specific data, try to answer based on general knowledge about a company like ButeoBot or state that you couldn't find specific details for that query but can provide general information.
-5.  Do not just repeat the tool's raw output; integrate it into a conversational response.
-Your final response should be in the 'answer' field.
-`,
+Conversation History:
+{{#if conversationHistory}}
+{{#each conversationHistory}}
+{{sender}}: {{text}}
+{{/each}}
+{{else}}
+No previous conversation.
+{{/if}}
+
+User's current query: "{{{query}}}"
+
+Instructions:
+1. Use the conversation history to understand context and provide more relevant answers
+2. If the user is asking follow-up questions (like time zones after asking about hours), use the context to provide a complete answer
+3. Use the 'getCompanyInfoTool' to retrieve relevant company information when appropriate
+4. Provide direct, helpful answers without explaining your internal processes
+5. Be conversational and natural in your responses
+6. If you don't have specific information, provide a helpful general response
+7. Keep responses concise and to the point
+
+IMPORTANT: 
+- Always return a valid JSON object with an "answer" field
+- Never mention tools, processes, or technical details to the user
+- Focus on providing the information the user requested in a natural way`,
 });
 
-const companyInfoChatFlow = ai.defineFlow(
+const companyInfoChatFlow = ai?.defineFlow(
   {
     name: 'companyInfoChatFlow',
     inputSchema: CompanyInfoChatInputSchema,
     outputSchema: CompanyInfoChatOutputSchema,
   },
   async (input: CompanyInfoChatInput) => {
-    const {output} = await prompt(input);
-    
-    if (output) {
-      return output;
+    try {
+      if (!prompt) {
+        throw new Error('AI prompt not initialized');
+      }
+      
+      const {output} = await prompt(input);
+      
+      if (output && output.answer) {
+        return output;
+      }
+    } catch (error) {
+      console.error('Error in company info chat flow:', error);
     }
-    // Fallback
+    
+    // Fallback response
     return {
       answer: "I'm sorry, I couldn't retrieve that information at the moment. ButeoBot Inc. specializes in AI solutions. How else can I help?",
     };
