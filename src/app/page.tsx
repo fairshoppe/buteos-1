@@ -135,7 +135,7 @@ export default async function Home() {
               </div>
               <div className="face face2">
                 <div className="content">
-                  <p>Management of 2 social media platforms with approximately 12 posts per month.</p>
+                  <p>Management of social media platforms with scheduled posting.</p>
                   <Link href="/web" className="learn-more">Learn More</Link>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default async function Home() {
               </div>
               <div className="face face2">
                 <div className="content">
-                  <p>Advanced SEO & Content Creation with 2 blogs per month to drive organic traffic.</p>
+                  <p>Advanced SEO & Content Creation to drive organic traffic.</p>
                   <Link href="/agent" className="learn-more">Learn More</Link>
                 </div>
               </div>
@@ -219,7 +219,7 @@ export default async function Home() {
               </div>
               <div className="face face2">
                 <div className="content">
-                  <p>1-2 Custom AI Solution Implementations to transform your business processes.</p>
+                  <p>Custom AI Solution Implementations to transform your business processes.</p>
                   <Link href="/custom" className="learn-more">Learn More</Link>
                 </div>
               </div>

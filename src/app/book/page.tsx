@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import './booking.css';
 import { checkAvailability, bookAppointment } from '@/services/calendarService';
 
 const locales = {
@@ -77,97 +78,110 @@ export default function BookingPage() {
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Book an Appointment</h1>
+    <main>
+      <section className="hero-section">
+        <div className="container">
+          <h1>Book an Appointment</h1>
+          <p>Schedule a consultation to discuss your digital marketing needs</p>
+        </div>
+      </section>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="calendar-container">
-          <Calendar
-            localizer={localizer}
-            events={[]}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-            selectable
-            onSelectSlot={handleSelectSlot}
-            views={['month', 'week', 'day']}
-            min={new Date(0, 0, 0, 9, 0, 0)} // 9 AM
-            max={new Date(0, 0, 0, 18, 30, 0)} // 6:30 PM
-            step={30} // 30 minute slots
-            timeslots={2}
-          />
+      <section className="content-section">
+        <div className="container">
+          <div className="booking-grid">
+            <div className="calendar-container">
+              <Calendar
+                localizer={localizer}
+                events={selectedDate ? [{
+                  title: 'Selected',
+                  start: selectedDate,
+                  end: new Date(selectedDate.getTime() + 30 * 60000), // 30 minutes
+                  resource: 'selected'
+                }] : []}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500 }}
+                selectable
+                onSelectSlot={handleSelectSlot}
+                views={['month', 'week', 'day']}
+                min={new Date(0, 0, 0, 9, 0, 0)} // 9 AM
+                max={new Date(0, 0, 0, 18, 30, 0)} // 6:30 PM
+                step={30} // 30 minute slots
+                timeslots={2}
+                eventPropGetter={(event) => ({
+                  className: event.resource === 'selected' ? 'selected-slot' : ''
+                })}
+              />
+            </div>
+
+            <div className="booking-form">
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label>Selected Date & Time</label>
+                  <input
+                    type="text"
+                    value={selectedDate ? selectedDate.toLocaleString() : 'Select a time slot'}
+                    readOnly
+                    className="form-input"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Name</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="form-input"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="form-input"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Service</label>
+                  <select
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
+                    className="form-input"
+                    required
+                  >
+                    <option value="">Select a service</option>
+                    <option value="Foundation">Buteos Nest</option>
+                    <option value="Growth">Buteos Flight</option>
+                    <option value="Transformation">Buteos Talon</option>
+                    <option value="Open">I don't know</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="cta-button"
+                  disabled={!selectedDate}
+                >
+                  Book Appointment
+                </button>
+              </form>
+
+              {bookingStatus.type && (
+                <div className={`status-message ${bookingStatus.type}`}>
+                  {bookingStatus.message}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-
-        <div className="booking-form">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Selected Date & Time</label>
-              <input
-                type="text"
-                value={selectedDate ? selectedDate.toLocaleString() : 'Select a time slot'}
-                readOnly
-                className="w-1/2 p-2 border rounded"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-1/2 p-2 border rounded"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-1/2 p-2 border rounded"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Service</label>
-              <select
-                value={service}
-                onChange={(e) => setService(e.target.value)}
-                className="w-1/2 p-2 border rounded"
-                required
-              >
-                <option value="">Select a service</option>
-                <option value="Foundation">Buteos Nest</option>
-                <option value="Growth">Buteos Flight</option>
-                <option value="Transformation">Buteos Talon</option>
-                <option value="Open">I don't know</option>
-              </select>
-            </div>
-
-            <button
-              type="submit"
-              className="w-1/2 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-              disabled={!selectedDate}
-            >
-              Book Appointment
-            </button>
-          </form>
-
-          {bookingStatus.type && (
-            <div
-              className={`mt-4 p-4 rounded ${
-                bookingStatus.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-              }`}
-            >
-              {bookingStatus.message}
-            </div>
-          )}
-        </div>
-      </div>
+      </section>
     </main>
   );
 }

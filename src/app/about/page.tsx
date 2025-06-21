@@ -7,7 +7,7 @@ export default function About() {
       <section className="hero-section">
         <div className="container">
           <h1>About Buteos Systems</h1>
-          <p>We're a team of passionate developers dedicated to helping businesses thrive in the digital world.</p>
+          <p>Strategic digital marketing consultancy specializing in hospitality and retail businesses across Texas.</p>
         </div>
       </section>
 
@@ -16,22 +16,51 @@ export default function About() {
           <div className="about-grid">
             <div className="about-content">
               <h2>Our Mission</h2>
-              <p>At Buteos Systems, we believe that every business deserves access to high-quality web and mobile solutions. Our mission is to empower small businesses with the tools they need to succeed in today's digital landscape.</p>
+              <p>At Buteos Systems, we empower hospitality and retail businesses to dominate their local markets through strategic digital marketing and AI transformation. From digital foundation to full transformation, we help Texas businesses command their market with comprehensive digital strategies.</p>
               
               <h2>Our Approach</h2>
-              <p>We take a holistic approach to development, focusing not just on creating beautiful websites and apps, but on delivering solutions that drive real business results. Our process is transparent, collaborative, and tailored to your specific needs.</p>
+              <p>We take a strategic approach to digital marketing, combining decades of industry experience with cutting-edge AI solutions. Our three-tier service model - Digital Foundation, Growth Partnership, and Full Digital Transformation - ensures we meet businesses exactly where they are in their digital journey.</p>
 
               <h2>Why Choose Us</h2>
               <ul className="benefits-list">
-                <li><i className="fas fa-check-circle"></i> Full-stack expertise</li>
-                <li><i className="fas fa-check-circle"></i> Transparent communication</li>
-                <li><i className="fas fa-check-circle"></i> Proven track record</li>
-                <li><i className="fas fa-check-circle"></i> Ongoing support</li>
-                <li><i className="fas fa-check-circle"></i> Modern technologies</li>
+                <li><i className="fas fa-check-circle"></i> Industry-specific expertise in hospitality & retail</li>
+                <li><i className="fas fa-check-circle"></i> Local SEO & Google Business Profile optimization</li>
+                <li><i className="fas fa-check-circle"></i> AI-powered marketing automation</li>
+                <li><i className="fas fa-check-circle"></i> Social media management & content creation</li>
+                <li><i className="fas fa-check-circle"></i> Comprehensive digital transformation</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
 
-            
+      <section className="content-section alt-bg">
+        <div className="container">
+          <h2>Our Team</h2>
+          <div className="team-grid">
+            <div className="team-member">
+              <div className="member-image">
+                <img src="/placeholder-headshot.jpg" alt="Seth Fair" />
+              </div>
+              <h3>Seth Fair</h3>
+              <h4>CEO</h4>
+              <p>A 20 year restaurant management professional with close to a decade of software experience</p>
+              <a href="https://www.linkedin.com/in/seth-fair-htx/" target="_blank" rel="noopener noreferrer" className="linkedin-link">
+                <i className="fab fa-linkedin"></i> Connect on LinkedIn
+              </a>
+            </div>
+
+            <div className="team-member">
+              <div className="member-image">
+                <img src="/placeholder-headshot.jpg" alt="Breanna Fair" />
+              </div>
+              <h3>Breanna Fair</h3>
+              <h4>CMO</h4>
+              <p>A 30 year marketing and sales professional specializing in B2B and relationship sales</p>
+              <a href="https://www.linkedin.com/in/breanna-fair-60870962/" target="_blank" rel="noopener noreferrer" className="linkedin-link">
+                <i className="fab fa-linkedin"></i> Connect on LinkedIn
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -73,7 +102,7 @@ export default function About() {
           <p>Let's discuss how we can help your business thrive in the digital world.</p>
           <div className="cta-buttons">
             <Link href="/contact" className="cta-button">Get in Touch</Link>
-            <Link href="/pricing" className="cta-button secondary">View Our Services</Link>
+            <Link href="/book" className="cta-button secondary">Book Consultation</Link>
           </div>
         </div>
       </section>

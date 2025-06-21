@@ -7,7 +7,6 @@ export default function LayoutClient() {
   return (
     <>
       <Navbar />
-      <ChatWidget />
     </>
   );
 }
