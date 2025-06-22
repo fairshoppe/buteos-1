@@ -40,7 +40,7 @@ export default function About() {
           <div className="team-grid">
             <div className="team-member">
               <div className="member-image">
-                <img src="/placeholder-headshot.jpg" alt="Seth Fair" />
+                <img src="/seth-fair.jpeg" alt="Seth Fair" />
               </div>
               <h3>Seth Fair</h3>
               <h4>CEO</h4>
@@ -52,7 +52,7 @@ export default function About() {
 
             <div className="team-member">
               <div className="member-image">
-                <img src="/placeholder-headshot.jpg" alt="Breanna Fair" />
+                <img src="/breanna-fair.jpeg" alt="Breanna Fair" />
               </div>
               <h3>Breanna Fair</h3>
               <h4>CMO</h4>

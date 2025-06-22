@@ -7,16 +7,37 @@
   --primary-light: #3b82f6;
   --accent: #7c3aed;
   --accent-blue: #3b82f6;
-  --text: #ffffff;
-  --text-light: #e0e0e0;
-  --background: #0a0a0a;
-  --background-alt: #1a1a1a;
-  --card-bg: #222222;
   --card-hover: #22c2e5;
-  --card-text: #ffffff;
-  --card-shadow: rgba(34, 194, 229, 0.3);
-  --card: 222 222 222; /* This is a light gray color */
-  --card-foreground: 0 0 0; /* Black text */
+}
+
+/* Light theme (default) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --text: #1a1a1a;
+    --text-light: #4a5568;
+    --background: #ffffff;
+    --background-alt: #f7fafc;
+    --card-bg: #ffffff;
+    --card-text: #1a1a1a;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --card: 255 255 255;
+    --card-foreground: 0 0 0;
+  }
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #ffffff;
+    --text-light: #e0e0e0;
+    --background: #0a0a0a;
+    --background-alt: #1a1a1a;
+    --card-bg: #222222;
+    --card-text: #ffffff;
+    --card-shadow: rgba(34, 194, 229, 0.3);
+    --card: 34 34 34;
+    --card-foreground: 255 255 255;
+  }
 }
 
 /* Navbar styles */
@@ -130,27 +151,17 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card-bg: #222222;
-    --card-hover: #22c2e5;
-    --card-text: #ffffff;
-    --card-shadow: rgba(34, 194, 229, 0.3);
-    --card: 34 34 34; /* This is a dark gray color */
-    --card-foreground: 255 255 255; /* White text */
-  }
-}
+
 
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: #111;
+  background: var(--background);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: var(--text);
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {
@@ -320,7 +331,7 @@ a {
 
 .hero-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, var(--background), var(--background-alt), #0d2e42);
+  background: linear-gradient(135deg, var(--background), var(--background-alt), var(--primary));
   position: relative;
   overflow: hidden;
 }
@@ -347,10 +358,15 @@ a {
   margin-bottom: 1.5rem;
   color: var(--text);
   text-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
-  background: linear-gradient(to right, #ffffff, #22c2e5);
-  background-clip: text;
-  color: transparent;
   animation: fadeIn 1s ease-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-content h1 {
+    background: linear-gradient(to right, #ffffff, #22c2e5);
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 .hero-content p {
@@ -378,10 +394,16 @@ a {
 .hero-paragraphs {
   max-width: 800px;
   margin: 0 auto;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   border-radius: 10px;
   border-left: 4px solid var(--primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-paragraphs {
+    background: rgba(0, 0, 0, 0.2);
+  }
 }
 
 @keyframes fadeIn {
@@ -759,7 +781,7 @@ a {
 
 .feature-item {
   padding: 1rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -821,7 +843,7 @@ footer {
 }
 
 .pricing-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -948,7 +970,7 @@ footer {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -1034,7 +1056,7 @@ footer {
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -1102,7 +1124,7 @@ button:disabled {
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -1360,7 +1382,7 @@ button:disabled {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
