@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BlogPost } from "@/types/BlogPosts"
+import { BlogPost } from "@/types/BlogPosts";
+import { getLocationFromHeaders } from '@/utils/location';
+import { localizedContent } from '@/data/localized-content';
 
 // Add this async function to fetch the latest blog post
 async function getLatestBlogPost(): Promise<BlogPost | null> {
@@ -34,6 +36,8 @@ async function getLatestBlogPost(): Promise<BlogPost | null> {
 export default async function Home() {
   // Fetch the latest blog post
   const latestPost = await getLatestBlogPost();
+  const userLocation = await getLocationFromHeaders();
+  const content = localizedContent[userLocation];
 
   return (
     <main>
@@ -42,9 +46,9 @@ export default async function Home() {
           <div className="hero-content">
             <h1>Precision Digital Strategy, Unmatched Vision.</h1>
             <div className="hero-paragraphs">
-              <p>In today's market, you need more than just an online presence—you need a commanding view of the field. Buteos Systems is the strategic web consultancy that gives your business a hawk's-eye view to dominate your competition.</p>
+              <p>In today's market, you need more than just an online presence—you need a commanding view of the field. Buteos Systems is the strategic {content.locationAdjective && `${content.locationAdjective} `}digital marketing consultancy that gives your business a hawk's-eye view to dominate your competition.</p>
               
-              <p>We go beyond standard web design. We manage your entire digital world, ensuring your website, local search ranking, social media, and intelligent AI solutions all work in concert to achieve your primary business goals. For our partners in retail and hospitality, this means more traffic, more direct sales, and a stronger bottom line.</p>
+              <p>We go beyond standard web design. We manage your entire digital world, ensuring your website, local search ranking, social media, and intelligent AI solutions all work in concert to achieve your primary business goals. For our partners in {content.businessFocus}, this means more traffic, more direct sales, and a stronger bottom line.</p>
               
               <p>It's time to stop competing and start commanding. Explore our offerings and find your perfect flight path, from the foundational security of Buteos Nest to the ambitious growth of Buteos Flight, or the transformative power of Buteos Talon.</p>
             </div>
@@ -96,7 +100,7 @@ export default async function Home() {
         <div className="container">
           <h2>Buteos Nest | Digital Foundation</h2>
           <p className="section-intro">Your Foundation for Digital Excellence. Scalable, Secure, and Built to Engage.</p>
-          <p>For businesses needing to establish a professional online footprint. We create stunning, intuitive, and secure platforms that serve as the core of your digital ecosystem. Whether you're launching a new idea or scaling an existing one, we build the robust, user-centric nest your business needs to thrive.</p>
+          <p>For {content.businessFocus} needing to establish a professional online footprint. We create stunning, intuitive, and secure platforms that serve as the core of your digital ecosystem. Whether you're launching a new idea or scaling an existing one, we build the robust, user-centric nest your business needs to thrive in the {content.marketDescription}.</p>
           <div className="features-grid">
             <div className="card">
               <div className="face face1">
@@ -152,7 +156,7 @@ export default async function Home() {
         <div className="container">
           <h2>Buteos Flight | Growth Partnership</h2>
           <p className="section-intro">Intelligence that Elevates. Automate, Analyze, and Accelerate Your Business.</p>
-          <p>For established businesses ready to drive measurable growth in leads and sales. Buteos Flight integrates intelligent systems into your workflow to handle repetitive tasks, uncover critical insights from your data, and create smarter customer experiences.</p>
+          <p>For established {content.businessFocus} ready to drive measurable growth in leads and sales. Buteos Flight integrates intelligent systems into your workflow to handle repetitive tasks, uncover critical insights from your data, and create smarter customer experiences.</p>
           <div className="features-grid">
             <div className="card">
               <div className="face face1">
@@ -208,7 +212,7 @@ export default async function Home() {
         <div className="container">
           <h2>Buteos Talon | Full Digital Transformation</h2>
           <p className="section-intro">Your Vision, Forged into Reality. Uncompromising Solutions for Unique Challenges.</p>
-          <p>For businesses seeking a significant competitive advantage through technology and data. When off-the-shelf products fall short, we become your dedicated development partner, diving deep into your operations to build systems perfectly tailored to your strategic goals.</p>
+          <p>For {content.businessFocus} seeking a significant competitive advantage through technology and data. When off-the-shelf products fall short, we become your dedicated development partner, diving deep into your operations to build systems perfectly tailored to your strategic goals.</p>
           <div className="features-grid">
             <div className="card">
               <div className="face face1">
@@ -276,7 +280,7 @@ export default async function Home() {
       <section id="cta" className="content-section">
         <div className="container">
           <h2>Ready to Transform Your Business?</h2>
-          <p>Join the businesses already thriving with our software solutions.</p>
+          <p>Join the {content.businessFocus} already thriving with our digital marketing solutions.</p>
           <div className="cta-buttons">
             <Link href="/contact" className="cta-button">Contact Us</Link>
             <Link href="/book" className="cta-button book-button">Book an Appointment</Link>

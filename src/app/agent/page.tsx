@@ -1,24 +1,23 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { getLocationFromHeaders } from '@/utils/location';
+import { localizedContent } from '@/data/localized-content';
 
-export const metadata = {
-  title: 'Growth Partnership - Houston Digital Marketing & SEO Services',
-  description: 'Advanced digital marketing services for established Houston hospitality and retail businesses. SEO, content marketing, Google Ads, Meta advertising, and marketing automation to drive measurable growth.',
-  keywords: ['Houston SEO services', 'digital marketing Houston', 'Google Ads Houston', 'Meta advertising Texas', 'content marketing Houston', 'marketing automation Texas'],
-};
-
-export default function AgentPage() {
+export default async function AgentPage() {
+  const userLocation = await getLocationFromHeaders();
+  const content = localizedContent[userLocation];
+  
   return (
     <main>
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
-            <h1>Growth Partnership Services - Houston Digital Marketing</h1>
+            <h1>Growth Partnership Services{content.location && ` - ${content.location} Digital Marketing`}</h1>
             <p className="tagline">
               Intelligence that Elevates. Automate, Analyze, and Accelerate Your Business.
             </p>
             <p>
-              For established Houston hospitality and retail businesses ready to drive measurable growth in leads and sales. Our Growth Partnership integrates intelligent marketing systems into your workflow to handle repetitive tasks, uncover critical insights from your customer data, and create smarter customer experiences. Let us equip your Texas business with the AI-powered marketing vision to anticipate challenges and seize opportunities in the competitive Houston market.
+              For established {content.businessFocus} ready to drive measurable growth in leads and sales. Our Growth Partnership integrates intelligent marketing systems into your workflow to handle repetitive tasks, uncover critical insights from your customer data, and create smarter customer experiences. Let us equip your business with the AI-powered marketing vision to anticipate challenges and seize opportunities in the competitive {content.marketDescription}.
             </p>
           </div>
         </div>
@@ -184,22 +183,24 @@ export default function AgentPage() {
             </div>
           </div>
           
-          <div className="local-seo-section">
-            <h2>Houston's Premier Growth Marketing Partnership</h2>
-            <p>Serving Houston's thriving hospitality and retail sectors, our Growth Partnership services are designed to help established Texas businesses scale their digital presence and drive measurable results. From River Oaks restaurants to Galleria retail stores, we understand the Houston market dynamics.</p>
-            <div className="local-benefits">
-              <h3>Houston Market Advantages:</h3>
-              <ul>
-                <li>Compete effectively against national chains in Houston</li>
-                <li>Target Houston-area customers with precision</li>
-                <li>Leverage Texas hospitality and retail trends</li>
-                <li>Build customer loyalty in the Houston community</li>
-              </ul>
+          {content.location && (
+            <div className="local-seo-section">
+              <h2>{content.location}'s Premier Growth Marketing Partnership</h2>
+              <p>Serving {content.location}'s thriving hospitality and retail sectors, our Growth Partnership services are designed to help established {content.businessFocus} scale their digital presence and drive measurable results. We understand the {content.location} market dynamics.</p>
+              <div className="local-benefits">
+                <h3>{content.location} Market Advantages:</h3>
+                <ul>
+                  <li>Compete effectively against national chains in {content.location}</li>
+                  <li>Target {content.location}-area customers with precision</li>
+                  <li>Leverage {content.location} hospitality and retail trends</li>
+                  <li>Build customer loyalty in the {content.location} community</li>
+                </ul>
+              </div>
             </div>
-          </div>
+          )}
           
           <div className="cta-container">
-            <Link href="/contact" className="cta-button">Start Your Houston Growth Partnership</Link>
+            <Link href="/book" className="cta-button">{content.ctaText}</Link>
           </div>
         </div>
       </section>

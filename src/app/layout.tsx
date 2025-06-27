@@ -100,6 +100,8 @@ export default function RootLayout({
           <div className="container">
             <div className="footer-copyright">
               <p>&copy; {new Date().getFullYear()} Buteos Systems. All Rights Reserved.</p>
+              <p>A subsidiary of:</p>
+              <a href="thefairshoppe.com">The Fair Shoppe</a>
               <div 
                 className="fb-share-button" 
                 data-href="https://buteossystems.com" 
