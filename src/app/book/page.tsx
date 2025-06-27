@@ -111,7 +111,29 @@ export default function BookingPage() {
       const duration = serviceDurations[service];
       const result = await bookAppointment(selectedTime, service, name, duration);
       if (result.success) {
-        setBookingStatus({ type: 'success', message: result.confirmationMessage });
+        // Send confirmation email
+        const emailResponse = await fetch('/api/book', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            selectedTime,
+            service,
+            name,
+            email,
+            duration,
+          }),
+        });
+
+        const emailResult = await emailResponse.json();
+
+        if (emailResult.success) {
+          setBookingStatus({ type: 'success', message: result.confirmationMessage + ' Confirmation email sent!' });
+        } else {
+          setBookingStatus({ type: 'error', message: result.confirmationMessage + ' Failed to send confirmation email.' });
+        }
+
         setSelectedDate(null);
         setSelectedTime(null);
         setName('');
