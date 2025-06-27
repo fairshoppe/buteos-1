@@ -1550,3 +1550,37 @@ a:hover {
   color: var(--primary-light);
   margin-bottom: 1rem;
 }
+
+.download-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 2rem auto 0;
+}
+
+.download-form input {
+  padding: 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.download-form input:focus {
+  outline: none;
+  border-color: var(--card-hover);
+  box-shadow: 0 0 0 2px rgba(34, 194, 229, 0.2);
+}
+
+.download-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .download-form {
+    max-width: 100%;
+  }
+}

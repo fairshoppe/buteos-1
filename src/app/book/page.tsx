@@ -1,79 +1,127 @@
 'use client';
 
-import { useState } from 'react';
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useState, useEffect, useCallback } from 'react';
+import { format, addDays, isWeekend, setHours, setMinutes, addMinutes } from 'date-fns';
 import './booking.css';
 import { checkAvailability, bookAppointment } from '@/services/calendarService';
 
-const locales = {
-  'en-US': require('date-fns/locale/en-US'),
+const serviceDurations: { [key: string]: number } = {
+  'Buteos Nest': 30,
+  'Buteos Flight': 45,
+  'Buteos Talon': 60,
+  'I don\'t know': 60,
 };
 
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
-
 export default function BookingPage() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [service, setService] = useState('');
+  const [service, setService] = useState('Buteos Nest');
+  const [timeSlots, setTimeSlots] = useState<{ time: Date; isAvailable: boolean }[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [bookingStatus, setBookingStatus] = useState<{
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
 
-  const handleSelectSlot = async ({ start }: { start: Date }) => {
-    const availability = await checkAvailability(start);
-    if (availability.isAvailable) {
-      setSelectedDate(start);
-    } else {
-      setBookingStatus({
-        type: 'error',
-        message: availability.reason || 'This time slot is not available.',
-      });
+  const getNextBusinessDays = () => {
+    const businessDays: Date[] = [];
+    let currentDate = new Date();
+    let count = 0;
+
+    while (count < 10) {
+      if (!isWeekend(currentDate)) {
+        businessDays.push(currentDate);
+        count++;
+      }
+      currentDate = addDays(currentDate, 1);
     }
+    return businessDays;
+  };
+
+  const businessDays = getNextBusinessDays();
+
+  const generateTimeSlots = (date: Date, duration: number) => {
+    const slots = [];
+    let currentTime = setMinutes(setHours(date, 9), 0);
+    const endTime = setMinutes(setHours(date, 19), 0); // Appointments available until 7 PM
+
+    while (currentTime < endTime) {
+      // Ensure the slot plus duration does not exceed end time
+      if (addMinutes(currentTime, duration) <= endTime) {
+        slots.push(new Date(currentTime));
+      }
+      currentTime = addMinutes(currentTime, duration);
+    }
+    return slots;
+  };
+
+  const fetchAvailableTimeSlots = useCallback(async (date: Date, serviceName: string) => {
+    const duration = serviceDurations[serviceName];
+    const generatedSlots = generateTimeSlots(date, duration);
+
+    // Optimistically render all slots as available initially
+    setTimeSlots(generatedSlots.map(slot => ({
+      time: slot,
+      isAvailable: true, // Assume available until checked
+    })));
+
+    setIsLoading(true);
+
+    // Asynchronously check availability for each slot
+    const availabilityPromises = generatedSlots.map(slot => checkAvailability(slot, duration));
+    const availabilityResults = await Promise.all(
+      availabilityPromises
+    );
+
+    // Update timeSlots with actual availability
+    setTimeSlots(prevSlots => prevSlots.map((slot, index) => ({
+      ...slot,
+      isAvailable: availabilityResults[index].isAvailable,
+    })));
+
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchAvailableTimeSlots(selectedDate, service);
+    }
+  }, [selectedDate, service, fetchAvailableTimeSlots]);
+
+  const handleDateSelect = (date: Date) => {
+    setSelectedDate(date);
+    setSelectedTime(null);
+    setBookingStatus({ type: null, message: '' });
+  };
+
+  const handleTimeSelect = (time: Date) => {
+    setSelectedTime(time);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedDate || !name || !email || !service) {
-      setBookingStatus({
-        type: 'error',
-        message: 'Please fill in all fields.',
-      });
+    if (!selectedTime || !name || !email || !service) {
+      setBookingStatus({ type: 'error', message: 'Please fill in all fields.' });
       return;
     }
 
     try {
-      const result = await bookAppointment(selectedDate, service, name);
+      const duration = serviceDurations[service];
+      const result = await bookAppointment(selectedTime, service, name, duration);
       if (result.success) {
-        setBookingStatus({
-          type: 'success',
-          message: result.confirmationMessage,
-        });
-        // Reset form
+        setBookingStatus({ type: 'success', message: result.confirmationMessage });
         setSelectedDate(null);
+        setSelectedTime(null);
         setName('');
         setEmail('');
-        setService('');
+        setService('Buteos Nest');
       } else {
-        setBookingStatus({
-          type: 'error',
-          message: result.confirmationMessage,
-        });
+        setBookingStatus({ type: 'error', message: result.confirmationMessage });
       }
     } catch (error) {
-      setBookingStatus({
-        type: 'error',
-        message: 'An error occurred while booking. Please try again.',
-      });
+      setBookingStatus({ type: 'error', message: 'An error occurred while booking. Please try again.' });
     }
   };
 
@@ -89,89 +137,100 @@ export default function BookingPage() {
       <section className="content-section">
         <div className="container">
           <div className="booking-grid">
-            <div className="calendar-container">
-              <Calendar
-                localizer={localizer}
-                events={selectedDate ? [{
-                  title: 'Selected',
-                  start: selectedDate,
-                  end: new Date(selectedDate.getTime() + 30 * 60000), // 30 minutes
-                  resource: 'selected'
-                }] : []}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: 500 }}
-                selectable
-                onSelectSlot={handleSelectSlot}
-                views={['month', 'week', 'day']}
-                min={new Date(0, 0, 0, 9, 0, 0)} // 9 AM
-                max={new Date(0, 0, 0, 18, 30, 0)} // 6:30 PM
-                step={30} // 30 minute slots
-                timeslots={2}
-                eventPropGetter={(event) => ({
-                  className: event.resource === 'selected' ? 'selected-slot' : ''
-                })}
-              />
+            <div className="date-selection-container">
+              <h3>Select a Date</h3>
+              <div className="date-buttons">
+                {businessDays.map((date) => (
+                  <button
+                    key={date.toISOString()}
+                    className={`date-button ${selectedDate && format(selectedDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd') ? 'selected' : ''}`}
+                    onClick={() => handleDateSelect(date)}
+                  >
+                    {format(date, 'EEE, MMM d')}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="booking-form">
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label>Selected Date & Time</label>
-                  <input
-                    type="text"
-                    value={selectedDate ? selectedDate.toLocaleString() : 'Select a time slot'}
-                    readOnly
-                    className="form-input"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="form-input"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="form-input"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Service</label>
-                  <select
-                    value={service}
-                    onChange={(e) => setService(e.target.value)}
-                    className="form-input"
-                    required
-                  >
-                    <option value="">Select a service</option>
-                    <option value="Foundation">Buteos Nest</option>
-                    <option value="Growth">Buteos Flight</option>
-                    <option value="Transformation">Buteos Talon</option>
-                    <option value="Open">I don't know</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="cta-button"
-                  disabled={!selectedDate}
+            <div className="booking-details">
+              <div className="service-selection">
+                <label>Service</label>
+                <select
+                  value={service}
+                  onChange={(e) => setService(e.target.value)}
+                  className="form-input"
+                  required
                 >
-                  Book Appointment
-                </button>
-              </form>
+                  <option value="Buteos Nest">Buteos Nest (30 min)</option>
+                  <option value="Buteos Flight">Buteos Flight (45 min)</option>
+                  <option value="Buteos Talon">Buteos Talon (60 min)</option>
+                  <option value="I don't know">I don't know (60 min)</option>
+                </select>
+              </div>
+
+              {selectedDate && (
+                <div className="time-selection">
+                  <h3>Available Times for {format(selectedDate, 'MMMM do, yyyy')}</h3>
+                  {isLoading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <div className="time-slots">
+                      {timeSlots.map(({ time, isAvailable }) => (
+                        <button
+                          key={time.toISOString()}
+                          className={`time-slot-button ${!isAvailable ? 'unavailable' : ''} ${selectedTime?.getTime() === time.getTime() ? 'selected' : ''}`}
+                          onClick={() => isAvailable && handleTimeSelect(time)}
+                          disabled={!isAvailable}
+                        >
+                          {format(time, 'h:mm a')}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {selectedTime && (
+                <div className="booking-form">
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group mobile-date-time">
+                      <label>Selected Date & Time</label>
+                      <input
+                        type="text"
+                        value={`${format(selectedTime, 'MMMM do, yyyy')} at ${format(selectedTime, 'h:mm a')}`}
+                        readOnly
+                        className="form-input"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="form-input"
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="form-input"
+                        required
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="cta-button"
+                    >
+                      Book Appointment
+                    </button>
+                  </form>
+                </div>
+              )}
 
               {bookingStatus.type && (
                 <div className={`status-message ${bookingStatus.type}`}>

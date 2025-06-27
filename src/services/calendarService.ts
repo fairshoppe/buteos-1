@@ -7,8 +7,6 @@ import { google } from 'googleapis';
 import type { calendar_v3 } from 'googleapis';
 import { getSecret } from '@/utils/secrets';
 
-const APPOINTMENT_DURATION_HOURS = 1;
-
 // --- Google Calendar API Setup ---
 let calendar: calendar_v3.Calendar | null = null;
 
@@ -48,7 +46,7 @@ async function getGoogleCalendarClient(): Promise<calendar_v3.Calendar | null> {
   }
 }
 
-export async function checkAvailability(dateTime: Date): Promise<{ isAvailable: boolean; reason?: string }> {
+export async function checkAvailability(dateTime: Date, durationMinutes: number): Promise<{ isAvailable: boolean; reason?: string }> {
   const gCalendar = await getGoogleCalendarClient();
   const calendarId = await getSecret('GOOGLE_CALENDAR_ID');
   
@@ -56,22 +54,25 @@ export async function checkAvailability(dateTime: Date): Promise<{ isAvailable: 
     return { isAvailable: false, reason: "Calendar service is not configured." };
   }
 
-  console.log(`Checking Google Calendar availability for: ${dateTime.toISOString()}`);
+  console.log(`Checking Google Calendar availability for: ${dateTime.toISOString()} with duration ${durationMinutes} minutes.`);
 
   const requestedStartTime = new Date(dateTime);
-  const requestedEndTime = new Date(requestedStartTime.getTime() + APPOINTMENT_DURATION_HOURS * 60 * 60 * 1000);
+  const requestedEndTime = new Date(requestedStartTime.getTime() + durationMinutes * 60 * 1000);
 
   if (requestedStartTime < new Date()) {
     return { isAvailable: false, reason: "Cannot book appointments in the past." };
   }
 
   const day = requestedStartTime.getDay();
-  const hour = requestedStartTime.getHours();
+  const startHour = requestedStartTime.getHours();
+  const endHour = requestedEndTime.getHours();
+  const endMinutes = requestedEndTime.getMinutes();
+
   if (day === 0 || day === 6) { // Sunday or Saturday
     return { isAvailable: false, reason: "Appointments can only be booked on weekdays." };
   }
-  if (hour < 9 || (hour + APPOINTMENT_DURATION_HOURS > 17)) { // Before 9 AM or appointment ends after 5 PM
-     return { isAvailable: false, reason: "Appointments can only be booked between 9 AM and 5 PM." };
+  if (startHour < 9 || endHour > 19 || (endHour === 19 && endMinutes > 0)) { // Before 9 AM or appointment ends after 7 PM
+     return { isAvailable: false, reason: "Appointments can only be booked between 9 AM and 7 PM." };
   }
 
   try {
@@ -100,7 +101,8 @@ export async function checkAvailability(dateTime: Date): Promise<{ isAvailable: 
 export async function bookAppointment(
   dateTime: Date,
   serviceDetails: string,
-  userName?: string
+  userName?: string,
+  durationMinutes?: number
 ): Promise<{ success: boolean; bookingId?: string; confirmationMessage: string; error?: string }> {
   const gCalendar = await getGoogleCalendarClient();
   const calendarId = await getSecret('GOOGLE_CALENDAR_ID');
@@ -109,20 +111,18 @@ export async function bookAppointment(
     return { success: false, confirmationMessage: "Booking failed: Calendar service is not configured.", error: "Calendar service not configured."};
   }
 
-  console.log(`Attempting to book Google Calendar appointment for: ${dateTime.toISOString()}, Service: ${serviceDetails}`);
+  console.log(`Attempting to book Google Calendar appointment for: ${dateTime.toISOString()}, Service: ${serviceDetails}, Duration: ${durationMinutes}`);
 
-  const availability = await checkAvailability(dateTime);
+  const availability = await checkAvailability(dateTime, durationMinutes || 60); // Default to 60 minutes if not provided
   if (!availability.isAvailable) {
     return { success: false, confirmationMessage: `Failed to book: ${availability.reason || 'Slot not available.'}`, error: availability.reason };
   }
 
   const startTime = new Date(dateTime);
-  const endTime = new Date(startTime.getTime() + APPOINTMENT_DURATION_HOURS * 60 * 60 * 1000);
+  const endTime = new Date(startTime.getTime() + (durationMinutes || 60) * 60 * 1000); // Default to 60 minutes if not provided
   
   const eventTitle = userName ? `${serviceDetails} for ${userName}` : serviceDetails;
-  const eventDescription = `Appointment booked via ButeoBot AI.
-Service: ${serviceDetails}
-${userName ? `Client: ${userName}` : ''}`;
+  const eventDescription = `Appointment booked via ButeoBot AI.\nService: ${serviceDetails}\n${userName ? `Client: ${userName}` : ''}`;
 
   const event: calendar_v3.Schema$Event = {
     summary: eventTitle,
