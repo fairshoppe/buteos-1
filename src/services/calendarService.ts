@@ -46,7 +46,7 @@ async function getGoogleCalendarClient(): Promise<calendar_v3.Calendar | null> {
   }
 }
 
-export async function checkAvailability(dateTime: Date, durationMinutes: number): Promise<{ isAvailable: boolean; reason?: string }> {
+export async function checkAvailability(dateTime: Date, durationMinutes: number = 30): Promise<{ isAvailable: boolean; reason?: string }> {
   const gCalendar = await getGoogleCalendarClient();
   const calendarId = await getSecret('GOOGLE_CALENDAR_ID');
   
@@ -63,31 +63,57 @@ export async function checkAvailability(dateTime: Date, durationMinutes: number)
     return { isAvailable: false, reason: "Cannot book appointments in the past." };
   }
 
-  const day = requestedStartTime.getDay();
-  const startHour = requestedStartTime.getHours();
-  const endHour = requestedEndTime.getHours();
-  const endMinutes = requestedEndTime.getMinutes();
+  // Convert to local time for business hours check
+  const localStart = new Date(requestedStartTime.toLocaleString());
+  const localEnd = new Date(requestedEndTime.toLocaleString());
+  
+  const day = localStart.getDay();
+  const startHour = localStart.getHours();
+  const startMinutes = localStart.getMinutes();
+  const endHour = localEnd.getHours();
+  const endMinutes = localEnd.getMinutes();
 
-  if (day === 0 || day === 6) { // Sunday or Saturday
+  // Check weekdays only
+  if (day === 0 || day === 6) {
     return { isAvailable: false, reason: "Appointments can only be booked on weekdays." };
   }
-  if (startHour < 9 || endHour > 19 || (endHour === 19 && endMinutes > 0)) { // Before 9 AM or appointment ends after 7 PM
-     return { isAvailable: false, reason: "Appointments can only be booked between 9 AM and 7 PM." };
+  
+  // Check business hours: 9 AM to 6:30 PM (18:30)
+  if (startHour < 9 || startHour > 18 || (startHour === 18 && startMinutes > 30)) {
+    return { isAvailable: false, reason: "Appointments can only be booked between 9:00 AM and 6:30 PM." };
+  }
+  
+  if (endHour > 18 || (endHour === 18 && endMinutes > 30)) {
+    return { isAvailable: false, reason: "Appointment would end after business hours (6:30 PM)." };
   }
 
   try {
+    // Check for conflicts in a wider window to catch overlapping events
+    const checkStart = new Date(requestedStartTime.getTime() - 30 * 60 * 1000); // 30 min before
+    const checkEnd = new Date(requestedEndTime.getTime() + 30 * 60 * 1000); // 30 min after
+    
     const response = await gCalendar.events.list({
       calendarId: calendarId,
-      timeMin: requestedStartTime.toISOString(),
-      timeMax: requestedEndTime.toISOString(),
-      maxResults: 1,
+      timeMin: checkStart.toISOString(),
+      timeMax: checkEnd.toISOString(),
       singleEvents: true,
       orderBy: 'startTime',
     });
 
+    // Check for actual conflicts
     if (response.data.items && response.data.items.length > 0) {
-      console.log(`Conflict found. Slot from ${requestedStartTime.toISOString()} to ${requestedEndTime.toISOString()} is booked.`);
-      return { isAvailable: false, reason: 'The time slot is already booked.' };
+      for (const event of response.data.items) {
+        if (!event.start?.dateTime || !event.end?.dateTime) continue;
+        
+        const eventStart = new Date(event.start.dateTime);
+        const eventEnd = new Date(event.end.dateTime);
+        
+        // Check if there's an overlap
+        if (requestedStartTime < eventEnd && requestedEndTime > eventStart) {
+          console.log(`Conflict found with event: ${event.summary} (${eventStart.toISOString()} - ${eventEnd.toISOString()})`);
+          return { isAvailable: false, reason: 'The time slot conflicts with an existing appointment.' };
+        }
+      }
     }
 
     console.log(`Time slot ${requestedStartTime.toISOString()} to ${requestedEndTime.toISOString()} is available.`);

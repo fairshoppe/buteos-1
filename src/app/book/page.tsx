@@ -45,14 +45,14 @@ export default function BookingPage() {
   const generateTimeSlots = (date: Date, duration: number) => {
     const slots = [];
     let currentTime = setMinutes(setHours(date, 9), 0);
-    const endTime = setMinutes(setHours(date, 19), 0); // Appointments available until 7 PM
+    const endTime = setMinutes(setHours(date, 18), 30); // Appointments available until 6:30 PM
 
     while (currentTime < endTime) {
       // Ensure the slot plus duration does not exceed end time
       if (addMinutes(currentTime, duration) <= endTime) {
         slots.push(new Date(currentTime));
       }
-      currentTime = addMinutes(currentTime, duration);
+      currentTime = addMinutes(currentTime, 30); // 30-minute intervals
     }
     return slots;
   };

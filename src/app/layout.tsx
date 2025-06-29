@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LayoutClient from './layout.client';
+import CookieBanner from '@/components/CookieBanner';
 import Script from 'next/script';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -90,6 +91,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <LayoutClient />
+        <CookieBanner />
         <div className="logo-container">
           <a href="/">
             <img src="https://storage.googleapis.com/buteos-res/bs_logo_nobg.png" alt="Buteos Systems Logo" className="logo-image" />
