@@ -74,6 +74,13 @@
   color: var(--primary);
 }
 
+.navbar-subtitle {
+  font-weight: bold;
+  font-size: 1.0rem;
+  order: 3;
+  color: var(--primary);
+}
+
 .menu-toggle {
   cursor: pointer;
   font-size: 1.5rem;
@@ -141,6 +148,10 @@
     order: 2;
   }
   
+  .navbar-subtitle {
+    order: 2;
+  }
+
   .navbar-menu ul {
     display: flex;
   }
@@ -1551,11 +1562,39 @@ a:hover {
   margin-bottom: 1rem;
 }
 
+.book-intro {
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  border-radius: 10px;
+  border-left: 4px solid var(--primary);
+}
+
+.book-intro h2 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.book-intro p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  color: var(--text-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  .book-intro {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
 .download-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  max-width: 400px;
+  max-width: 500px;
   margin: 2rem auto 0;
 }
 
